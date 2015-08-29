@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Online Logo Maker</title>
-    <link rel="stylesheet" href="app.css?v=0.93" type="text/css" />
+    <link rel="stylesheet" href="app.css?v=0.94" type="text/css" />
     <link rel="stylesheet" href="css/mlColorPicker.css" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
     <script src="js/fabric.js"></script>
@@ -17,7 +17,7 @@
     <script src="js/blob.js"></script>
     <script src="js/canvas-toBlob.js"></script>
     <script src="js/fileSaver.js"></script>
-    <script src="js/olm.js?v=0.165"></script>
+    <script src="js/olm.js?v=0.166"></script>
     <script src="js/tools.js?v=3"></script>
 </head>
 <body>
@@ -152,16 +152,16 @@
                     OBJECT <span>POSITION/SIZE</span>
                 </div>
                 <div class="object-position">
-                    OBJECT <span>X:</span>
-                    <div class="input position"><input ng-model="x" type="number"></input></div>
-                    OBJECT <span>Y:</span>
-                    <div class="input position"><input ng-model="y" type="number"></input></div>
+                    <div style="float:left; padding-left:15px">OBJECT <span class="wine-color">X:</span></div>
+                    <div><input class="input position" ng-model="x" type="number"></input> PIX</div>
+                    <div style="float:left; padding-left:15px">OBJECT <span class="wine-color">Y:</span></div>
+                    <div><input class="input position" ng-model="y" type="number"></input> PIX</div>
                 </div>
                 <div class="object-size">
-                    OBJECT <span>WIDTH:</span>
-                    <div class="input position"><input ng-model="width" type="number"></input></div>
-                    OBJECT <span>HEIGHT:</span>
-                    <div class="input position"><input ng-model="height" type="number"></input></div>
+                    <div style="float:left; padding-left:15px">OBJECT <span class="wine-color">WIDTH:</span></div>
+                    <div><input class="input position" ng-model="width" type="number"></input> PIX</div>
+                    <div style="float:left; padding-left:15px">OBJECT <span class="wine-color">HEIGHT:</span></div>
+                    <div><input class="input position" ng-model="height" type="number"></input> PIX</div>
                 </div>
             </div>
         </div>
@@ -173,14 +173,14 @@
                 </div>
                 <div class="shadow-direction">
                     SHADOW
-                    DIRECTION:
+                    <span class="wine-color">DIRECTION:</span>
                     <div class="input shadow">
                         <input ng-model="direction" type="number" min="0" max="359" step="1" value="45" size="6">
                     </div>
                 </div>
                 <div class="shadow-outset">
                     SHADOW
-                    OUTSET:
+                    <span class="wine-color">OUTSET:</span>
                     <div class="input shadow">
                         <input ng-model="outset" type="number" min="2" max="70" step="1" value="45" size="6">
                     </div>
@@ -188,14 +188,15 @@
                 <div  id="shadow-picker"></div>
                 <div class="shadow-color">
                     <div>SHADOW</div>
-                    <div>COLOR:  </div>
-                    
+                    <div class="wine-color">COLOR:  </div>
+                   
                     <a ng-click="$.onColorClick()" href="#">
                         <div class="shadow-picker"></div>
                     </a>
                 </div>
             </div>
         </div>
+
         <div ng-controller="ModifyController" class="modify footer-panel">
             <div class="container">
                 <div class="header">
