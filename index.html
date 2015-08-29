@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Online Logo Maker</title>
-    <link rel="stylesheet" href="app.css?v=0.94" type="text/css" />
+    <link rel="stylesheet" href="app.css?v=0.93" type="text/css" />
     <link rel="stylesheet" href="css/mlColorPicker.css" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
     <script src="js/fabric.js"></script>
@@ -17,7 +17,7 @@
     <script src="js/blob.js"></script>
     <script src="js/canvas-toBlob.js"></script>
     <script src="js/fileSaver.js"></script>
-    <script src="js/olm.js?v=0.166"></script>
+    <script src="js/olm.js?v=0.165"></script>
     <script src="js/tools.js?v=3"></script>
 </head>
 <body>
@@ -31,30 +31,30 @@
         <!-- Tools toolbar -->
         <div ng-controller="ToolsController" class="panel tools">
 
-            <div  class="ctooltip">
-                <div class="header">TOOLS</div>
+            <div class="header">TOOLS</div>
+            <div  class="ctooltip ctooltip-1">
                 <span class="tooltip" style="padding:5px; display: none;">Add Symbol (CTRL-I)</span>
-                <div ng-click="$.addSymobol()" class="button"><a href="#">ADD SYMBOL<div class="icon icon-symbol"></div></a></div>
+                <div ng-click="$.addSymobol()" class="button"><a href="#"><img src="assets/images/addSymbol.png" style="width: 100%; height: 100%" /></a></div>
             </div>
 
-            <div  class="ctooltip">
+            <div  class="ctooltip ctooltip-1">
             <span class="tooltip" style="display: none;">Add Text (CTRL-T)</span>
-                <div ng-click="$.addText()" class="button"><a href="#">ADD TEXT<div class="icon icon-text"></div></a></div>
+                <div ng-click="$.addText()" class="button"><a href="#"><img src="assets/images/addText.png" style="width: 100%; height: 100%"></a></div>
             </div>
 
-            <div class="ctooltip">
+            <div class="ctooltip ctooltip-1">
                 <span class="tooltip" style="padding:5px; display: none;">Upload Image (CTRL-U)</span>
-                <div class="button fileupload"><input id="fileupload" type="file" /><a href="#" title="Upload Image (CTRL-U)">UPLOAD IMAGE<div class="icon icon-upload"></div></a></div>
+                <div class="button fileupload"><input id="fileupload" type="file" /><a href="#" title="Upload Image (CTRL-U)"><img src="assets/images/uploadImage.png" style="width: 100%; height: 100%"></a></div>
             </div>
 
-            <div class="ctooltip">
+            <div class="ctooltip ctooltip-1">
             <span class="tooltip" style="padding:5px; display: none;">Download Logo (CTRL-D)</span>
-                <div ng-click="$.downloadLogo()" class="button"><a href="#">DOWNLOAD LOGO<div class="icon icon-download"></div></a></div>
+                <div ng-click="$.downloadLogo()" class="button"><a href="#"><img src="assets/images/downloadLogo.png" style="width: 100%; height: 100%"></a></div>
             </div>
 
-            <div class="ctooltip">
+            <div class="ctooltip ctooltip-1">
                 <span class="tooltip" style="padding:5px; display: none;">Save Project (CTRL-S)</span>
-                <div ng-click="$.saveProject()" class="button"><a href="#">SAVE PROJECT<div class="icon icon-save"></div></a></div>
+                <div ng-click="$.saveProject()" class="button"><a href="#"><img src="assets/images/saveProject.png" style="width: 100%; height: 100%"></a></div>
             </div>
 
         </div>
@@ -189,14 +189,13 @@
                 <div class="shadow-color">
                     <div>SHADOW</div>
                     <div class="wine-color">COLOR:  </div>
-                   
+                    
                     <a ng-click="$.onColorClick()" href="#">
                         <div class="shadow-picker"></div>
                     </a>
                 </div>
             </div>
         </div>
-
         <div ng-controller="ModifyController" class="modify footer-panel">
             <div class="container">
                 <div class="header">

@@ -120,14 +120,14 @@ input {
  
 }
  
-.wine-color {
-    color: #810400;
-}
-
 .footer .header span {
     color:#810400;
 }
  
+.wine-color {
+    color: #810400;
+}
+
 .footer .size {
     width:250px;
     font-size: 11px;
@@ -214,23 +214,29 @@ input {
     font-size: 11px;
     font-weight: bold;
     bottom: 100px;
+    padding: 5px 5px !important;
 }
+
+.ctooltip-1 {
+    height: 18.5%;
+    display: block;
+    padding-bottom: 1px;
+} 
  
 .tools .button {
    margin-bottom: 2px;
+   max-width: 100%;
 }
  
 .tools .button a {
-    background-image: url("assets/images/tool_button.png");
-    background-size: 276px 55px;
+    /*background-image: url("assets/images/tool_button.png"); 
+    background-size: 276px 55px; */
     color: #B2B7B8;
-    display: table-cell;
-    height: 55px;
-    padding-left: 25px;
-    padding-top: 8px;
+
+   /* padding-left: 25px; 
+    padding-top: 8px; */
     text-decoration: none;
     vertical-align: middle;
-    width: 295px;
 }
  
 .tools .button .icon {
@@ -1013,4 +1019,3 @@ input {
     margin-top: 10px;
     width: 60px !important;
 }
-
