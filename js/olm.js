@@ -552,12 +552,9 @@ var CanvasController = (function () {
     CanvasController.prototype.removeObjects = function() {
         if(canvas.getObjects() != null) {
             canvas.forEachObject(function(o){ $cmd.run('remove', o); });
-            // $cmd.run('remove-objects', canvas.getObjects());
-            // canvas.clear().renderAll();
         }
     };
     CanvasController.prototype.saveCanvas = function () {
-
         // First of all - deselect all active objects
         canvas.deactivateAll().renderAll();
 
@@ -613,7 +610,6 @@ var CanvasController = (function () {
           }
         }
         fireEvent(download, 'click')
-
     };
     CanvasController.prototype.getRectBounds = function () {
         var width = canvas.getWidth();
@@ -1120,6 +1116,8 @@ var ObjectsController = (function () {
         $scope.$ = this;
         msg.on('object-added', this.onObjectAdd, this);
         msg.on('object-selected', this.onObjectSelected, this);
+        msg.on('object-move-up', this.onObjectMoveUp, this);
+        msg.on('object-move-down', this.onObjectMoveDown, this);
         msg.on('object-single-delete', this.onDeleteClick, this);
         msg.on('object-multiple-delete', this.onDeleteAllClick, this);
 
@@ -1132,6 +1130,26 @@ var ObjectsController = (function () {
         this.selectObject(obj, true);
         this.update();
         // scopeApply(_this.$scope);
+    };
+    ObjectsController.prototype.onObjectMoveUp = function() {
+        for(var i = 0; i < $canvas.children.length; i++) {
+          if($canvas.children[i].selected) {
+            if(i > 0) {
+              $canvas.children.move(i, i - 1);
+              break;
+            }
+          }
+        }
+    };
+    ObjectsController.prototype.onObjectMoveDown = function() {
+        for(var i = 0; i < $canvas.children.length; i++) {
+          if($canvas.children[i].selected) {
+             if(i < $canvas.children.length - 1) {
+              $canvas.children.move(i, i + 1);
+              break;
+            }
+          }
+        }
     };
     ObjectsController.prototype.onSelectionCleared = function (e) {
         console.log(e);
@@ -1164,6 +1182,12 @@ var ObjectsController = (function () {
                 this.items[i].selected = value;
         }
     };
+    ObjectsController.prototype.onMoveUpClick = function() {
+        this.onObjectMoveUp(this);
+    };
+    ObjectsController.prototype.onMoveDownClick = function() {
+        this.onObjectMoveDown(this);
+    };
     ObjectsController.prototype.clearSelection = function () {
         for (var i = 0; i < this.items.length; i++) {
             this.items[i].selected = false;
@@ -1187,7 +1211,8 @@ var ObjectsController = (function () {
     };
     ObjectsController.prototype.removeObj = function () {
         msg.send('remove-object');
-    }
+
+    };
     ObjectsController.prototype.onDeleteClick = function () {
         this.removeObj();
     };

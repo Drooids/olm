@@ -16,8 +16,8 @@
     <script src="js/blob.js"></script>
     <script src="js/canvas-toBlob.js"></script>
     <script src="js/fileSaver.js"></script>
-    <script src="js/olm.js?v=0.202"></script>
-    <script src="js/tools.js?v=3"></script>
+    <script src="js/olm.js?v=0.211"></script>
+    <script src="js/tools.js?v=4"></script>
 </head>
 <body>
     
@@ -114,7 +114,8 @@
     <div ng-controller="ObjectsController" class="objects panel">
         <div class="header">OBJECTS</div>
         <div class="content">
-            <div ng-repeat="item in items track by $index" ng-click="$.onItemClick($index)" ng-dblclick="$.onItemDoubleClick($index)" ng-class="{true: 'object-active'}[item.selected]" class="object-item">{{ item.name }} ({{ item.type }})</div>
+            <div ng-repeat="item in items track by $index" ng-click="$.onItemClick($index)" ng-dblclick="$.onItemDoubleClick($index)" ng-class  ="{true: 'object-active'}[item.selected]" class="object-item">{{ item.name }} ({{ item.type }})
+            </div>
         </div>
         <div class="objects-footer">
             <div class="ctooltip" style="display:inline;">
