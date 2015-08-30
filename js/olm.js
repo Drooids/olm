@@ -1136,6 +1136,8 @@ var ObjectsController = (function () {
           if($canvas.children[i].selected) {
             if(i > 0) {
               $canvas.children.move(i, i - 1);
+              // Update z-index.
+              canvas.getActiveObject().moveTo(i - 1);
               break;
             }
           }
@@ -1146,6 +1148,8 @@ var ObjectsController = (function () {
           if($canvas.children[i].selected) {
              if(i < $canvas.children.length - 1) {
               $canvas.children.move(i, i + 1);
+              // Update z-index.
+              canvas.getActiveObject().moveTo(i + 1);
               break;
             }
           }
