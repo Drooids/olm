@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Online Logo Maker</title>
-    <link rel="stylesheet" href="app.css?v=0.95" type="text/css" />
+    <link rel="stylesheet" href="app.css?v=0.93" type="text/css" />
     <link rel="stylesheet" href="css/mlColorPicker.css" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
     <script src="js/fabric.js"></script>
@@ -16,11 +16,11 @@
     <script src="js/blob.js"></script>
     <script src="js/canvas-toBlob.js"></script>
     <script src="js/fileSaver.js"></script>
-    <script src="js/olm.js?v=0.214"></script>
-    <script src="js/tools.js?v=4"></script>
+    <script src="js/olm.js?v=0.165"></script>
+    <script src="js/tools.js?v=3"></script>
 </head>
 <body>
-    
+
     <div class="top">
     <div class="left">
 
@@ -31,29 +31,29 @@
         <div ng-controller="ToolsController" class="panel tools">
 
             <div class="header">TOOLS</div>
-            <div  class="ctooltip ctooltip-1">
+            <div  class="ctooltip button-wrapper">
                 <span class="tooltip" style="padding:5px; display: none;">Add Symbol (CTRL-I)</span>
-                <div ng-click="$.addSymobol()" class="button"><a href="#"><img src="assets/addSymbol.png" style="width: 100%; height: 100%" /></a></div>
+                <div ng-click="$.addSymobol()" class="button"><a href="#"><img src="assets/images/addSymbol.png" /></a></div>
             </div>
 
-            <div  class="ctooltip ctooltip-1">
+            <div  class="ctooltip button-wrapper">
             <span class="tooltip" style="display: none;">Add Text (CTRL-T)</span>
-                <div ng-click="$.addText()" class="button"><a href="#"><img src="assets/addText.png" style="width: 100%; height: 100%"></a></div>
+                <div ng-click="$.addText()" class="button"><a href="#"><img src="assets/images/addText.png"></a></div>
             </div>
 
-            <div class="ctooltip ctooltip-1">
+            <div class="ctooltip button-wrapper">
                 <span class="tooltip" style="padding:5px; display: none;">Upload Image (CTRL-U)</span>
-                <div class="button fileupload"><input id="fileupload" type="file" /><a href="#" title="Upload Image (CTRL-U)"><img src="assets/uploadImage.png" style="width: 100%; height: 100%"></a></div>
+                <div class="button fileupload"><input id="fileupload" type="file" /><a href="#" title="Upload Image (CTRL-U)"><img src="assets/images/uploadImage.png"></a></div>
             </div>
 
-            <div class="ctooltip ctooltip-1">
+            <div class="ctooltip button-wrapper">
             <span class="tooltip" style="padding:5px; display: none;">Download Logo (CTRL-D)</span>
-                <div ng-click="$.downloadLogo()" class="button"><a href="#"><img src="assets/downloadLogo.png" style="width: 100%; height: 100%"></a></div>
+                <div ng-click="$.downloadLogo()" class="button"><a href="#"><img src="assets/images/downloadLogo.png"></a></div>
             </div>
 
-            <div class="ctooltip ctooltip-1">
+            <div class="ctooltip button-wrapper">
                 <span class="tooltip" style="padding:5px; display: none;">Save Project (CTRL-S)</span>
-                <div ng-click="$.saveProject()" class="button"><a href="#"><img src="assets/saveProject.png" style="width: 100%; height: 100%"></a></div>
+                <div ng-click="$.saveProject()" class="button"><a href="#"><img src="assets/images/saveProject.png"></a></div>
             </div>
 
         </div>
@@ -77,7 +77,7 @@
                     <div>
                         <a ng-click="$.onRegisterClick()" class="btn btn-blue" href="#">REGISTER</a>
                     </div>
-                    <div>or</div>  
+                    <div>or</div>
                     <div>
                         <a ng-click="$.onLoginClick()" class="btn btn-green" href="#">LOGIN</a>
                         <input type="submit" id="submit" value="Submit" style="display:none;" />
@@ -91,7 +91,7 @@
                     <div>
                         <a ng-click="$.onAccountClick()" class="btn btn-blue" href="#">MY ACCOUNT</a>
                     </div>
-                    <div></div>  
+                    <div></div>
                     <div>
                         <a ng-click="$.onLogoutClick()" class="btn btn-green" href="#">LOGOUT</a>
                     </div>
@@ -108,14 +108,22 @@
         <div class="footer">
             <span style="position:relative; top:-5;">UNDO</span> <img ng-click="$.onUndoClick()" ng-class="{false: 'inactive'}[undoActive]" src="assets/images/undo_icon.png"  title="Undo (CTRL-Z)"/>
             <img ng-click="$.onRedoClick()" ng-class="{false: 'inactive'}[redoActive]" src="assets/images/redo_icon.png" title="Redo (CTRL-Y)"/> <span style="position:relative; top:-5;">REDO</span>
+            <span style="float:right;">
+                <span style="position:relative; top:-5; font-size:12px;">BACKGROUND COLOR </span>
+                <a ng-click="$.onColorClick()" href="#">
+                    <img src="assets/images/DropdownColorPickerBg.png" style="height:25px;">
+                </a>
+                <a style="float:right; vertical-align:middle; padding-top:5px;" class="btn btn-grey">
+                    <span style="vertical-align:middle; color: #32cafd">GRID ON</span>
+                </a>
+            </span>
         </div>
     </div>
 
     <div ng-controller="ObjectsController" class="objects panel">
         <div class="header">OBJECTS</div>
         <div class="content">
-            <div ng-repeat="item in items track by $index" ng-click="$.onItemClick($index)" ng-dblclick="$.onItemDoubleClick($index)" ng-class  ="{true: 'object-active'}[item.selected]" class="object-item">{{ item.name }} ({{ item.type }})
-            </div>
+            <div ng-repeat="item in items track by $index" ng-click="$.onItemClick($index)" ng-dblclick="$.onItemDoubleClick($index)" ng-class="{true: 'object-active'}[item.selected]" class="object-item">{{ item.name }} ({{ item.type }})</div>
         </div>
         <div class="objects-footer">
             <div class="ctooltip" style="display:inline;">
@@ -130,7 +138,7 @@
                 <span class="tooltip md del-all-obj" style="padding:5px; display: none;">Delete All Objects (Ctrl + Delete)</span>
                 <a ng-click="$.onDeleteAllClick()" href="#"><img src="assets/images/trash_icon.png"/></a>
             </div>
- 
+
             <div class="object-arrows">
                 <div class="ctooltip" style="display:inline;">
                     <span class="tooltip md arr-up" style="padding:5px; display: none;">Move Object Up (Ctrl + Arrow Up)</span>
@@ -189,7 +197,7 @@
                 <div class="shadow-color">
                     <div>SHADOW</div>
                     <div class="wine-color">COLOR:  </div>
-                    
+
                     <a ng-click="$.onColorClick()" href="#">
                         <div class="shadow-picker"></div>
                     </a>
@@ -206,7 +214,7 @@
 
                         <div class="ctooltip">
                             <span class="tooltip md up" style="padding:5px; display: none;">Shift Object Up (Arrow up)</span>
-                            <a ng-click="$.moveUp()" class="modify-moveup" href="#"><img src="assets/images/modify_object/moveup.png"/></a> 
+                            <a ng-click="$.moveUp()" class="modify-moveup" href="#"><img src="assets/images/modify_object/moveup.png"/></a>
                         </div>
 
 
@@ -218,7 +226,7 @@
 
                         <div class="ctooltip">
                             <span class="tooltip md right" style="padding:5px; display: none;">Shift Object Right (Arrow Right)</span>
-                                <a ng-click="$.moveRight()" class="modify-moveright" href="#"><img src="assets/images/modify_object/moveright.png"/></a> 
+                                <a ng-click="$.moveRight()" class="modify-moveright" href="#"><img src="assets/images/modify_object/moveright.png"/></a>
                         </div>
 
                         <div class="ctooltip">
@@ -230,30 +238,30 @@
                     <div>Scale</div>
                         <div class="ctooltip">
                             <span class="tooltip md inc-obj-size" style="padding:5px; display: none;">Increase Objcet Size (+)</span>
-                            <a ng-click="$.zoomIn()" href="#"><img src="assets/images/modify_object/zoomin.png"/></a>   
+                            <a ng-click="$.zoomIn()" href="#"><img src="assets/images/modify_object/zoomin.png"/></a>
                         </div>
                         <div class="ctooltip">
                             <span class="tooltip md dec-obj-size" style="padding:5px; display: none;">Decrease Objcet Size (-)</span>
-                            <a ng-click="$.zoomOut()"  href="#"><img src="assets/images/modify_object/zoomout.png"/></a>  
+                            <a ng-click="$.zoomOut()"  href="#"><img src="assets/images/modify_object/zoomout.png"/></a>
                         </div>
                 </div>
                 <div class="modify-rotate">
                     <div>Rotate</div>
                     <div class="ctooltip">
                         <span class="tooltip md rot-obj-ccw" style="padding:5px; display: none;">Rotate Object Counterclockwise (Ctrl + Num 7)</span>
-                        <a ng-click="$.rotateCCW()" href="#"><img src="assets/images/modify_object/rotateccw.png"/></a>   
+                        <a ng-click="$.rotateCCW()" href="#"><img src="assets/images/modify_object/rotateccw.png"/></a>
                     </div>
                     <div class="ctooltip">
                         <span class="tooltip md rot-obj-cw" style="padding:5px; display: none;">Rotate Object Clockwise (Ctrl + Num 9)</span>
-                        <a ng-click="$.rotateCW()"  href="#"><img src="assets/images/modify_object/rotatecw.png"/></a>  
+                        <a ng-click="$.rotateCW()"  href="#"><img src="assets/images/modify_object/rotatecw.png"/></a>
                     </div>
                 </div>
                 <div class="modify-duplicate">
                     <div>Duplicate</div>
                     <div class="ctooltip">
                         <span class="tooltip md dup-obj" style="padding:5px; display: none;">Duploicate Object (Ctrl + K)</span>
-                        <a ng-click="$.duplicate()" href="#"><img src="assets/images/modify_object/duplicate.png"/></a>  
-                    </div> 
+                        <a ng-click="$.duplicate()" href="#"><img src="assets/images/modify_object/duplicate.png"/></a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -268,7 +276,7 @@
                     </a>
                 <br>
                 <span>INVISIBLE:</span>
-                <a ng-click="$.onInvisibleClick()" href="#">
+                <a ng-click="$.onInvisibleClick()" href="#" class="invisible-link">
                         <div class="eye" ng-class="{true: 'eye-on', false: 'eye-off'}[pathsVisible]"></div>
                 </a>
             </div>
@@ -379,14 +387,14 @@
                 <div style="padding:10px 0;">
                     <div class="column">
                         <span style="float:left; margin-top:6px; font-size: 10px; font-weight:normal; font-size: 10px;">Width:</span>
-                        <div class="input position" style="margin-left:50px;"> 
+                        <div class="input position" style="margin-left:50px;">
                             <input ng-model="$.width" type="number" style="font-size:14px; color:#a5a6a6;" />
                         </div>
                         <span style="float:right; margin-top:-20px; position: relative; left:-16px;  font-size: 10px; font-weight: normal; color:#a5a6a6;">px </span>
                     </div>
                     <div class="column">
                         <span style="float:left; margin-top:6px; font-size: 10px; font-weight:normal; font-size: 10px;">Height:</span>
-                        <div class="input position" style="margin-left:50px;"> 
+                        <div class="input position" style="margin-left:50px;">
                             <input ng-model="$.height" type="number" style="font-size:14px; color:#a5a6a6;" />
                         </div>
                         <span style="float:right; margin-top:-20px; position: relative; left:-15px;  font-size: 10px; font-weight: normal; color:#a5a6a6;">px </span>
@@ -407,7 +415,7 @@
         <div ng-controller="WelcomeController" ng-show="$.visible" class="panel popup fade welcome">
             <div class="header">WELCOME TO ONLINE LOGO MAKER</div>
             <div class="content">
-                Online Logo Maker is easy to use and you can figure out most functions at a glance, but you can always 
+                Online Logo Maker is easy to use and you can figure out most functions at a glance, but you can always
                 <a href="http://www.onlinelogomaker.com/tutorial">read our tutorial</a> first:<br>
                 <br>
                 To start your project, press the Trash icon to clean the background.

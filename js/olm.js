@@ -209,6 +209,31 @@ var ToolsController = (function () {
         msg.send('open-popup', 'downloadlogo');
     };
     ToolsController.prototype.saveProject = function () {
+
+        this.$scope.visible = false;
+        msg.send("close-popups");
+        $("#id-auth").hide();
+
+        if(!window.logged) {
+            window.alert("Sorry, please sign in first.");
+            /*
+            msg.send('open-popup');
+            msg.send('open-invalid-user-pass');
+            $(".auth-content").html('');
+            $("#id-auth").show();
+            $(".auth-content").append('Please signin or <strong><a style="color:red; text-decoration:none;" href="http://www.onlinelogomaker.com/register">register</a></strong> first to be able to save your project.');
+            document.activeElement.blur();
+            setTimeout(function() {
+                $("#id-auth > .popup-footer").children()[0].focus();
+            }, 200);
+            */
+            return;
+        } else {
+            this.$scope.visible = false;
+            msg.send("close-popups");
+            $("#id-auth").hide();
+        }
+
         msg.send('open-popup', 'confirmation');
         this.isSaving = true;
     };
@@ -236,6 +261,7 @@ var ToolsController = (function () {
             },
             processData: false
         }).then(function (data) {
+            window.open('http://www.onlinelogomaker.com/account');
             console.log("Project Saved");
         });
         var img = canvas.toDataURL('png');
@@ -939,6 +965,7 @@ var LoginController = (function () {
         this.LOGOUT_URL = "http://www.onlinelogomaker.com/applet_scripts/DoLogout.php";
         this.$scope.$ = this;
         $scope.logged = false;
+        window.logged = false;
         $http.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
         this.init();
     }
@@ -955,12 +982,14 @@ var LoginController = (function () {
                     // msg.send('open-popup');
                     console.log("Not logged In");
                     _this.$scope.logged = false;
+                    window.logged = false;
                     _this.$scope.$apply();
                 }
                 else {
                     _this.$scope.userfullname = res.root.user.name;
                     _this.$scope.user = res.root.user;
                     _this.$scope.logged = true;
+                    window.logged = true;
                     _this.$scope.$apply();
                     console.log("Welcome, " + _this.$scope.userfullname);
                 }
@@ -1045,11 +1074,14 @@ var LoginController = (function () {
             //console.log("cookie: " + getCookie("__cfduid"));
             var res = JSON.parse(xml2json(data, ''));
             if (res.error) {
-
                 msg.send('open-popup');
                 msg.send('open-invalid-user-pass');
                 $("#id-auth").show();
                 $(".auth-content").append('Invalid username or password');
+                document.activeElement.blur();
+                setTimeout(function() {
+                    $("#id-auth > .popup-footer").children()[0].focus();
+                }, 200);
 
                 // I have no idea why wouldn't this work...
                 // _this.$scope.visible = true;
@@ -1065,12 +1097,14 @@ var LoginController = (function () {
 
                 // alert("Invalid username or password");
                 _this.$scope.logged = false;
+                window.logged = false;
                 _this.$scope.$apply();
             }
             else if (res.root) {
                 _this.$scope.userfullname = res.root.user.name;
                 console.log(_this);
                 _this.$scope.logged = true;
+                window.logged = true;
                 _this.$scope.$apply();
                 console.log("Welcome, " + _this.$scope.userfullname);
             }
@@ -1081,9 +1115,9 @@ var LoginController = (function () {
     };
     LoginController.prototype.onLogoutClick = function () {
         var _this = this;
-
         $.post(this.LOGOUT_URL, function (data, status) {
             _this.$scope.logged = false;
+            window.logged = false;
             _this.$scope.user = null;
             _this.$scope.$apply();
         });
@@ -1099,10 +1133,12 @@ var LoginController = (function () {
     };
     LoginController.prototype.onOkClick = function () {
         this.$scope.visible = false;
+        $("#id-auth").hide();
         msg.send("close-popups");
     };
     LoginController.prototype.onCancelClick = function () {
         this.$scope.visible = false;
+        $("#id-auth").hide();
         msg.send("close-popups");
     };
     return LoginController;
@@ -1137,7 +1173,7 @@ var ObjectsController = (function () {
             if(i > 0) {
               $canvas.children.move(i, i - 1);
               // Update z-index.
-              canvas.getActiveObject().moveTo(i - 1);
+              canvas.getActiveObject().moveTo(i + 1);
               break;
             }
           }
@@ -1149,7 +1185,7 @@ var ObjectsController = (function () {
              if(i < $canvas.children.length - 1) {
               $canvas.children.move(i, i + 1);
               // Update z-index.
-              canvas.getActiveObject().moveTo(i + 1);
+              canvas.getActiveObject().moveTo(i - 1);
               break;
             }
           }
@@ -1172,7 +1208,7 @@ var ObjectsController = (function () {
         //   var _this = ObjectsController.instance;
         var disObj = new DisplayObject();
         disObj.raw = obj;
-        this.items.push(disObj);
+        this.items.unshift(disObj);
         alert("onObjectAdd");
         // disObj.type = obj.type.toUpperCase();
         // if (disObj.type == "PATH-GROUP") disObj.type = "SYMBOL";
@@ -1234,6 +1270,7 @@ var PopupController = (function () {
         this.$scope = $scope;
         $scope.$ = this;
         $scope.visible = false;
+        $("#id-auth").hide();
     }
     PopupController.prototype.init = function (id) {
         this.id = id;
@@ -1640,7 +1677,7 @@ var CanvasService = (function () {
         console.log(dobj);
         dobj.selected = true;
         this.root.add(dobj.raw).renderAll();
-        this.children.push(dobj);
+        this.children.unshift(dobj);
         console.log(this.children);
         this.select(dobj);
         if (dobj.type == DOType.SYMBOL) {

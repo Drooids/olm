@@ -19,7 +19,7 @@ input {
     box-shadow: none;
     -moz-box-shadow: none;
 }
- 
+
 .panel {
     background-image: url("assets/images/tool.png");
     padding: 5px 8px;
@@ -29,14 +29,14 @@ input {
     border: 1px solid #808080;
     box-shadow: #000000 0px 0px 5px;
 }
- 
+
 .panel .header {
     padding-left: 5px;
     padding-bottom: 5px;
     font-size: 11px;
     text-align: left;
 }
- 
+
 .panel .content {
     background-color:#cacaca;
     border-top: 3px solid #222223;
@@ -48,7 +48,7 @@ input {
     box-shadow:#808080 0px 0px 5px;
     box-shadow:#333333 0px 0px 10px inset;
 }
- 
+
 .auth {
     height: 155px !important;
     text-align: center;
@@ -67,11 +67,11 @@ input {
     top: 3px;
     bottom: 150px
 }
- 
+
 .left{
     float:left;
 }
- 
+
 .footer {
     left: 8px;
     right: 8px;
@@ -80,7 +80,7 @@ input {
     bottom: 0;
     padding: 10px;
 }
- 
+
 .working {
     position:absolute;
     float:left;
@@ -89,7 +89,7 @@ input {
     bottom:0px;
     top:0px;
 }
- 
+
 .working .content {
     position: absolute;
     bottom: 35px;
@@ -99,31 +99,31 @@ input {
     margin: 10px;
     overflow: scroll;
 }
- 
+
 .working .footer {
     bottom: -100px;
 }
- 
+
 .footer .content {
     float:left;
     color:#333333;
     height:130px;
     margin-right:5px;
 }
- 
+
 .content .header {
     color: black;
     border-top-left-radius:5px;
     border-top-right-radius:5px;
     background-color:#afafaf;
     box-shadow:#333333 0px -1px 5px inset;
- 
+
 }
- 
+
 .footer .header span {
     color:#810400;
 }
- 
+
 .wine-color {
     color: #810400;
 }
@@ -131,31 +131,31 @@ input {
 .footer .size {
     width:250px;
     font-size: 11px;
- 
+
 }
- 
+
 .footer .shadow {
     width: 310px;
 }
- 
+
 .footer .modify {
-    width: 350px;
+    width: 300px;
 }
- 
+
 .footer .color {
     position:absolute;
     left:840px;
     right:160px;
     visibility: hidden;
- 
+
 }
- 
+
 .footer .resources {
     float:right;
     width:130px;
     margin-right:0px;
 }
- 
+
 .footer-panel {
     border-top: 4px solid #222223;
     border-left: 4px solid #222223;
@@ -173,7 +173,7 @@ input {
     padding-top: 3px;
     font-weight: bold;
 }
- 
+
 .objects {
     position: absolute;
     right: 0px;
@@ -181,7 +181,7 @@ input {
     top: 0px;
     bottom: 0px;
 }
- 
+
 .objects .content {
     position: absolute;
     top: 30px;
@@ -194,18 +194,18 @@ input {
     background-color: transparent;
     padding: 8 5;
 }
- 
+
 .logo {
     background-image: url("assets/images/logo.png");
     width: 287px;
     height: 72px;
     margin-top: -2px;
 }
- 
+
 .form-control {
- 
+
 }
- 
+
 .tools {
     position: absolute;
     width: 276px;
@@ -217,28 +217,28 @@ input {
     padding: 5px 5px !important;
 }
 
-.ctooltip-1 {
+.tools .button-wrapper {
     height: 18.5%;
     display: block;
     padding-bottom: 1px;
-} 
- 
-.tools .button {
-   margin-bottom: 2px;
-   max-width: 100%;
 }
- 
-.tools .button a {
-    /*background-image: url("assets/images/tool_button.png"); 
-    background-size: 276px 55px; */
-    color: #B2B7B8;
 
-   /* padding-left: 25px; 
-    padding-top: 8px; */
+.tools .button {
+    margin-bottom: 2px;
+    max-width: 100%;
+}
+
+.tools .button img {
+    width: 100%;
+    height: 100%
+}
+
+.tools .button a {
+    color: #B2B7B8;
     text-decoration: none;
     vertical-align: middle;
 }
- 
+
 .tools .button .icon {
     width: 28px;
     height: 28px;
@@ -246,40 +246,40 @@ input {
     margin-right: 25px;
     float:right;
 }
- 
+
 .icon-symbol {
     background-image:url("assets/images/add_symbols_icon.png");
 }
- 
+
 .tools .button .icon-text {
     background-image:url("assets/images/add_text_icon.png");
 }
- 
+
 .tools .button .icon-upload {
     background-image:url("assets/images/upload_image_icon.png");
     background-size: 29px 29px;
 }
- 
+
 .tools .button .icon-download {
     background-image:url("assets/images/save_project_icon.png");
 }
- 
+
 .tools .button .icon-save {
     background-image:url("assets/images/save_icon.png");
 }
- 
- 
- 
- 
+
+
+
+
 /* LOGIN PANEL*/
- 
+
 .login {
     position: absolute;
     width: 276px;
     height: 83px;
     bottom: 0px;
 }
- 
+
 .panel.login input {
    padding-bottom: 0px;
 }
@@ -287,37 +287,38 @@ input {
     font-weight: bold;
     margin-bottom:0
 }
- 
- 
- 
+
+
+
 /* Buttons */
- 
+
 .btn {
-    background-size: 75px 29px;
-    height: 29px;
+    background-size: 85px 25px;
+    background-repeat: no-repeat;
+    height: 25px;
     text-align: center;
     display: table-cell;
     vertical-align: middle;
     text-decoration: none;
     color: #DDD;
     font-weight: bold;
-    width: 75px;
-    font-size: 10px;
+    width: 85px;
+    font-size: 12px;
 }
- 
+
 .btn-blue {
     background-image:url("assets/images/register-button.png");
- 
+
 }
- 
+
 .btn-grey {
     background-image:url("assets/images/cancel.png");
 }
- 
+
 .btn-green {
     background-image:url("assets/images/login-button.png");
 }
- 
+
 .popups {
     top: 0px;
         left: 0px;
@@ -328,16 +329,16 @@ input {
         position:fixed;
     background-color: rgba(255, 255, 255, 0.4);
 }
- 
+
 .popup {
- 
+
     position: absolute;
         top: 0px; left: 0px; right: 0px; bottom: 0px;
     margin: auto;
     width:400px;
     height:500px;
 }
- 
+
 .popup.popup-rename {
     height: 125px !important;
     width: 210px !important;
@@ -345,7 +346,7 @@ input {
     left: 82%;
     top: -40%;
 }
- 
+
 .popup.popup-rename .content {
     padding: 10px 2px 3px;
 }
@@ -356,21 +357,21 @@ input {
     width:100%;
     padding: 5px;
 }
- 
+
 .popup .header {
     font-size:14px;
     color:#cecfd1;
 }
- 
+
 .popup .header .title {
     padding-top:  5px;
 }
- 
+
 .popup-footer {
     float: right;
     padding: 5px 0px;
 }
- 
+
 .icon {
     top:5px;
     left:10px;
@@ -380,13 +381,13 @@ input {
     float:left;
     margin-right:5px;
 }
- 
- 
+
+
 .symbols {
     width: 880px;
     height:490px
 }
- 
+
 .symbols .content {
     height: 428px;
 }
@@ -395,26 +396,26 @@ input {
     background-color: #dbdbdb;
     border: 3px solid #333333;
 }
- 
+
 .symbols .categories{
     width: 285px;
     float: left;
     margin-left: 5px;
- 
- 
+
+
 }
- 
+
 .symbols .list{
      margin-left: 300px;
     margin-right: 5px;
 }
- 
+
 .symbols-footer {
     float: right;
     margin: 8px
- 
+
 }
- 
+
 .content-header {
     color: #363636;
     font-size: 12px;
@@ -426,7 +427,7 @@ input {
     border-top-right-radius:5px;
     background-color:#afafaf;
     box-shadow:#333333 0px -1px 5px inset;
- 
+
 }
 .category-item {
     color: #363636;
@@ -436,7 +437,7 @@ input {
     height: 20px;
     padding-top: 8px;
 }
- 
+
 .category-item-selected {
     background-color: aqua;
 }
@@ -449,13 +450,13 @@ input {
     margin-top: -20px;
     float:right;
 }
- 
- 
+
+
 .category-item img {
     vertical-align:middle;
     width: 24px;
 }
- 
+
 .category-item:hover {
     background-color: gray;
     text-decoration:none;
@@ -463,11 +464,11 @@ input {
 .category-list {
     padding-top: 10px;
 }
- 
+
 .symbol-list {
  padding: 10px;
 }
- 
+
 .symbol-item {
     width: 100px;
     height: 100px;
@@ -477,16 +478,16 @@ input {
     border-color: #cacaca;
     float: left;
 }
- 
+
 .symbol-item img {
     width: 100%;
     height: 100%;
 }
- 
+
 .symbol-item-selected {
     border-color: black;
 }
- 
+
 .fade {
     transition: 0.3s linear all;
     opacity: 1;
@@ -494,13 +495,13 @@ input {
 .fade.ng-hide {
     opacity: 0;
 }
- 
+
 .ng-hide-add, .ng-hide-remove {
     /* ensure visibility during the transition */
     display: block !important; /* yes, important */
 }
- 
- 
+
+
 .input {
     /* background-image: url(assets/images/objectInput.png); */
     background-color: #fff;
@@ -514,54 +515,54 @@ input {
     box-shadow:         1px 1px 3px #a5a6a6 inset;
     font-size: 10px;
 }
- 
+
 .input input {
     border-width: 0px;
     background: transparent;
     font-size: 10px;
     color: #000;
 }
- 
+
 .input.position {
     height: 25px;
     width: 79px;
 }
- 
+
 .input.position input {
     height: 25px;
     width: 85px;
 }
- 
+
 .input.shadow {
     height: 25px;
     width: 49px;
 }
- 
+
 .input.shadow input {
     height: 25px;
     width: 51px;
 }
- 
+
 .container {
     padding-left: 15px;
     padding-right: 15px;
 }
- 
+
 .object-position {
     float: left;
-    padding-top: 5px;
+    margin-top: 5px;
     width: 49%;
     text-align: center;
     border-right: 1px solid #a5a5a5;
 }
- 
+
 .object-size {
     float: right;
-    padding-top: 5px;
+    margin-top: 5px;
     width: 50%;
     text-align: center;
 }
- 
+
 .shadow.container,
 .size.container,
 .size.container,
@@ -577,34 +578,34 @@ input {
     margin-top: -8;
     border-radius: 7px 7px 0 0 !important;
 }
- 
+
 .btn-on {
     background-image: url(assets/images/dark_checkbox_selected_up.png);
 }
- 
+
 .btn-off {
     background-image: url(assets/images/dark_checkbox_up.png);
 }
- 
+
 .eye-on {
     background-image: url(assets/images/check-color-image.png);
 }
- 
+
 .eye-off {
     background-image: url(assets/images/no-color-image.png);
 }
- 
+
 .eye {
     width: 40px;
     height: 25px;
 }
- 
+
 .btn-onoff {
     float: right;
     width: 50px;
     height: 14px;
 }
- 
+
 .shadow-picker {
     background-image: url(assets/images/DropdownColorPickerShadow.png);
     width: 102px;
@@ -612,32 +613,32 @@ input {
     background-color: #bfbfbf;
     border-radius: 5px;
 }
- 
+
 .shadow-direction {
     float: left;
     width: 58px;
     padding: 30px 10px;
 }
- 
+
 .shadow-outset {
     float: left;
     width: 58px;
     padding: 30px 10px;
 }
- 
+
 .shadow-color {
     float: left;
     width: 100px;
     padding: 30px 0px 0px 10px;
 }
- 
- 
+
+
 .fileupload {
     position: relative;
     overflow: hidden;
     background: ...; /* and other things to make it pretty */
 }
- 
+
 .fileupload input {
     position: absolute;
     top: 0;
@@ -651,21 +652,21 @@ input {
                          a large part of the input clickable in most browsers */
     height: 200px;
 }
- 
- 
- 
+
+
+
 .addtext {
     height: 175px;
     width: 280px;
     padding: 5px;
- 
+
 }
 .addtext .content {
     color: black;
     height: 90px;
     padding: 15px 5px 5px;
 }
- 
+
 .addtext textarea {
     background-color: #fff;
     border-radius: 5px;
@@ -676,16 +677,16 @@ input {
     width: 263px;
     border: 2px solid gray;
 }
- 
+
 .welcome {
     height: 180px;
- 
+
 }
- 
+
 .welcome .content {
  padding: 10px;
 }
- 
+
 .downloadlogo {
     height: 180px;
     width: 390px;
@@ -693,28 +694,28 @@ input {
 .downloadlogo .content {
     padding: 15px 15px 15px;
 }
- 
- 
+
+
 .column {
     float: left;
     width:50%;
 }
- 
+
 .content {
     color: black;
 }
- 
+
 .modify {
     text-align: center;
     width: 310px;
 }
- 
+
 .modify-move {
     width: 72px;
     padding: 10px 5px;
     float: left;
 }
- 
+
 .modify-moveup {
     position: relative;
     left: 21px;
@@ -737,29 +738,29 @@ input {
     top: 12px;
     float: left;
 }
- 
+
 .modify-scale {
     width: 40px;
     float: left;
     padding: 10px 5px;
 }
- 
+
 .modify-rotate {
     width: 80px;
     float: left;
     padding: 10px 5px;
 }
- 
+
 .modify-duplicate {
     width: 40px;
     float: left;
     padding: 14px 5px;
 }
- 
+
 .inactive {
     opacity: 0.5;
 }
- 
+
 .login input {
     background-color: transparent;
     border-width: 0px;
@@ -768,60 +769,60 @@ input {
     margin-left: 30px;
     color:azure;
 }
- 
+
 .login > a {
     float: left;
     margin-right: 0px;
 }
- 
+
 .login-btns >div {
    float: right;
     margin-left: 5px;
 }
- 
+
 .login-user {
     height: 23px;
     width: 275px;
     margin-bottom: 5px;
     background-image: url(assets/images/textfield_bg.png);
 }
- 
+
 .login-pass {
     height: 23px;
     width: 275px;
     margin-bottom: 7px;
     background-image: url(assets/images/textfieldpwd_bg.png);
 }
- 
- 
+
+
 .object-item {
     width:175px;
     height:24px;
     padding-top: 10px;
     padding-left: 20px;
 }
- 
+
 .object-active {
     background-image: url(assets/images/object_render_active.png);
-        color: azure;
- 
+    background-repeat: no-repeat;
+    color: azure;
 }
- 
+
 .popup-confirmation {
     height: 180px;
- 
+
 }
- 
+
 .popup-confirmation .content {
     height: 120px;
- 
+
 }
- 
+
 .font-active {
     background-image: url(assets/images/fontdialog/Selection-Bg.png);
     background-repeat: repeat-x;
 }
- 
+
 .text-picker {
     background-image: url(assets/images/DropdownColorPickerTextForm.png);
     width: 159px;
@@ -830,35 +831,35 @@ input {
     border-radius: 5px;
     margin-left: 50px;
 }
- 
+
 .font-picker {
     background-image: url(assets/images/dark_button_up.png);
     width: 162px;
     height: 29px;
     margin-left: 50px;
 }
- 
+
 .textformat {
     position: absolute;
     left: 840px;
     right: 161px;
 }
- 
+
 .textformat .container {
     padding: 10px;
     padding-top: 20px;
 }
- 
+
 .textformat .container span {
     float: left;
 }
- 
- 
+
+
 .tooltip {
     display: inline;
     position: relative;
 }
- 
+
 .tooltip:hover:after{
     background: #f7f7c7 none repeat scroll 0 0;
     border-radius: 2px;
@@ -871,7 +872,7 @@ input {
     position: absolute;
     z-index: 1000;
 }
- 
+
 .tooltip:hover:before{
     border: solid;
     border-color: #333 transparent;
@@ -882,28 +883,28 @@ input {
     position: absolute;
     z-index: 99;
 }
- 
- 
+
+
 .resources-content img {
     margin: 10 0 0 20;
 }
- 
+
 .objects-footer {
     width:100%;
     position: absolute;
     bottom: 5;
 }
- 
+
 .object-arrows {
     float: right;
     margin-right: 15px;
 }
- 
+
 .object-arrows img {
     margin-right: -3;
 }
- 
- 
+
+
 .color-picker {
     background-image: url(assets/images/DropdownColorPickerTextForm.png);
     width: 159px;
@@ -912,24 +913,29 @@ input {
     border-radius: 5px;
     margin-left: 50px;
 }
- 
+
 .symbolcolor {
-    width: 260px;
- 
+    width: 250px;
+
 }
- 
+
 .symbolcolor .container {
     padding: 10px;
     padding-top: 20px;
 }
- 
+
 .symbolcolor .container span {
     float: left;
 }
- 
- 
+
+.symbolcolor .container .invisible-link {
+    float: left;
+    margin-left: 10px;
+}
+
+
 /* Tooltips */
- 
+
 .tooltip {
     background: #f7f7c7 none repeat scroll 0 0;
     box-shadow: 1px 1px 2px #808080;
@@ -947,7 +953,7 @@ input {
     padding: 5px;
     width: 120px;
 }
- 
+
 /* Modify object section */
 .tooltip.md {
     margin-left: 10px;
