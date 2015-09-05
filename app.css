@@ -139,7 +139,7 @@ input {
 }
 
 .footer .modify {
-    width: 300px;
+    width: 290px;
 }
 
 .footer .color {
@@ -157,6 +157,7 @@ input {
 }
 
 .footer-panel {
+    box-shadow: 0px 1px 5px #000;
     border-top: 4px solid #222223;
     border-left: 4px solid #222223;
     border-right: 4px solid #222223;
@@ -566,16 +567,20 @@ input {
 .shadow.container,
 .size.container,
 .size.container,
+.symbolcolor.container,
+.resources.container,
 .modify.container {
      padding: 20px;
 }
 .shadow .container,
 .size .container,
 .size .container,
+.symbolcolor .container,
+.resources .container,
 .modify .container {
-    padding: 4px 5px 0px 5px;
+    padding: 4px 5px 0px 10px;
     background-color: #afafaf;
-    margin-top: -8;
+    margin-top: -3;
     border-radius: 7px 7px 0 0 !important;
 }
 
@@ -679,7 +684,7 @@ input {
 }
 
 .welcome {
-    height: 180px;
+    height: 125px;
 
 }
 
