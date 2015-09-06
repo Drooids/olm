@@ -567,7 +567,6 @@ input {
 .shadow.container,
 .size.container,
 .size.container,
-.symbolcolor.container,
 .resources.container,
 .modify.container {
      padding: 20px;
@@ -575,10 +574,19 @@ input {
 .shadow .container,
 .size .container,
 .size .container,
-.symbolcolor .container,
 .resources .container,
 .modify .container {
     padding: 4px 5px 0px 10px;
+    background-color: #afafaf;
+    margin-top: -3;
+    border-radius: 7px 7px 0 0 !important;
+}
+
+.resources .container {
+    padding-bottom:5px !important;
+}
+.symbolcolor .header {
+    padding: 4px 5px 5px 10px;
     background-color: #afafaf;
     margin-top: -3;
     border-radius: 7px 7px 0 0 !important;
@@ -845,7 +853,7 @@ input {
 }
 
 .textformat {
-    position: absolute;
+    width: 230px;
     left: 840px;
     right: 161px;
 }

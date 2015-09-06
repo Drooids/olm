@@ -89,7 +89,7 @@ var Command = (function () {
             args[_i - 1] = arguments[_i];
         }
         history.length = this.index;
-        console.log('command: ', name);
+        // console.log('command: ', name);
         this.history.push({ name: name, args: args });
         var func = this.commandMap[name];
         if (func) {
@@ -102,7 +102,7 @@ var Command = (function () {
         this.updateUndoRedoState();
     };
     Command.prototype.map = function (name, callback, caller, undoType) {
-        console.log('map', name, undoType);
+        // console.log('map', name, undoType);
         this.commandMap[name] = callback;
         this.callerMap[name] = caller;
         if (undoType != null) {
@@ -120,7 +120,7 @@ var Command = (function () {
         var action = this.history[this.index];
         var func = this.undoMap[action.name];
         this.updateUndoRedoState();
-        console.log('undo', action.name, func);
+        // console.log('undo', action.name, func);
         if (func == null)
             return;
         switch (func) {
@@ -200,7 +200,7 @@ var ToolsController = (function () {
     ToolsController.prototype.addText = function () {
         msg.send('open-popup');
         msg.send('open-addtext');
-        console.log('addtext.clciked');
+        // console.log('addtext.clciked');
     };
     ToolsController.prototype.uploadImage = function () {
         $('#fileupload').trigger('click');
@@ -262,14 +262,14 @@ var ToolsController = (function () {
             processData: false
         }).then(function (data) {
             window.open('http://www.onlinelogomaker.com/account');
-            console.log("Project Saved");
+            // console.log("Project Saved");
         });
         var img = canvas.toDataURL('png');
         img = img.replace("data:image/png;base64,", "");
         // img = Base64.decode(img);
         var imgRaw = Base64Binary.decode(img, null);
         //var imgRaw = atob(img);
-        console.log(imgRaw);
+        // console.log(imgRaw);
         $.ajax({
             type: 'POST',
             url: url.replace(".olm", ".png"),
@@ -280,9 +280,9 @@ var ToolsController = (function () {
             },
             processData: false
         }).then(function (data) {
-            console.log("Project Saved");
+            // console.log("Project Saved");
         });
-        console.log(img);
+        // console.log(img);
     };
     ToolsController.prototype.onFileSelect = function (evt) {
         var files = evt.target.files; // FileList object
@@ -297,7 +297,7 @@ var ToolsController = (function () {
                 return function (e) {
                     // Render thumbnail.
                     msg.send('add-image', e.target.result);
-                    console.log('send add iamge');
+                    // console.log('send add iamge');
                 };
             })(f);
             // Read in the image file as a data URL.
@@ -394,7 +394,7 @@ var PopupsController = (function () {
         this.$scope.visible = true;
     };
     PopupsController.prototype.openPopup = function (name) {
-        console.log('openPopup: ' + 'open-' + name);
+        // console.log('openPopup: ' + 'open-' + name);
         this.$scope.visible = true;
         msg.send('open-' + name);
     };
@@ -416,16 +416,16 @@ var CanvasController = (function () {
 
         var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <defs/>\n  <g>\n    <path stroke=\"none\" fill=\"#6633ff\" d=\"M31.4 0.35 Q34.45 1.25 36.6 4.35 37.9 6.3 38.5 8.65 39.1 10.85 38.95 13.25 38.85 14.9 38.35 16.4 L38.15 17.05 Q37.55 18.8 36.55 20.2 L38.1 21.4 39.4 22.9 Q40.45 24.4 40.45 25.8 40.5 27.15 39.65 28.15 38.95 29 37.75 29.35 L35.1 29.65 32.65 29.2 Q31.5 28.8 30.45 28.2 28.5 27 27.35 25.4 L26.85 24.55 26.55 23.75 Q25.1 23.2 23.85 22.2 22.65 21.25 21.75 19.9 20.65 18.3 20.05 16.4 L19.6 14.75 Q19.3 13.1 19.4 11.4 19.45 9.5 20 7.8 20.7 5.4 22.15 3.55 23.65 1.7 25.7 0.8 28.5 -0.5 31.4 0.35 M35.1 6.7 Q33.3 4.1 30.75 3.2 28.35 2.35 25.95 3.2 24.15 3.8 22.75 5.3 21.4 6.75 20.65 8.8 20.15 10.3 20 11.95 19.9 13.5 20.15 15.05 L20.5 16.4 Q21 18.25 22.1 19.85 L24.1 22 Q25.25 22.9 26.6 23.35 L26.95 24.15 27.4 24.9 Q28.45 26.45 30.2 27.45 L32.2 28.3 34.4 28.65 36.7 28.25 Q37.7 27.85 38.3 27.05 38.95 26.15 38.85 24.95 38.8 23.65 37.9 22.35 L36.75 21.05 Q36.15 20.5 35.4 20.05 36.25 18.8 36.7 17.3 L36.95 16.4 37.2 14.05 Q37.3 12.1 36.75 10.25 36.25 8.35 35.1 6.7 M8.95 18.6 L11.4 18.3 14.75 18.55 Q17.65 19.1 19.9 20.65 21.3 21.6 22.2 22.8 23.25 24.05 23.75 25.45 L24.55 25.8 25.4 26.3 Q27.05 27.45 28.2 29.35 L29.2 31.55 29.7 34 Q29.8 35.5 29.4 36.7 29 37.9 28.15 38.6 27.15 39.45 25.8 39.4 24.4 39.35 22.9 38.3 22.1 37.8 21.4 37.05 L20.25 35.45 Q18.8 36.45 17.05 37.1 15.25 37.75 13.25 37.85 L8.95 37.5 8.65 37.45 Q6.3 36.85 4.4 35.5 1.25 33.35 0.35 30.3 -0.5 27.45 0.8 24.6 1.7 22.6 3.6 21.1 5.4 19.65 7.8 18.9 L8.95 18.6 M5.3 21.65 Q3.8 23.05 3.2 24.85 2.35 27.3 3.2 29.7 4.1 32.25 6.75 34.05 7.75 34.75 8.95 35.25 L10.25 35.7 14.05 36.15 17.3 35.6 Q18.8 35.15 20.05 34.35 L21.1 35.7 22.35 36.8 Q23.65 37.7 24.95 37.8 26.15 37.85 27.05 37.2 27.85 36.65 28.25 35.6 28.7 34.6 28.65 33.3 28.65 32.25 28.3 31.15 L27.45 29.15 Q26.4 27.35 24.9 26.3 L24.15 25.85 23.4 25.55 Q22.9 24.2 22 23 21.1 21.9 19.85 21 17.7 19.55 15.05 19.1 L12 18.95 8.95 19.55 8.8 19.6 Q6.75 20.35 5.3 21.65\"/>\n  </g>\n</svg>";
 
-        // console.log(svg.toString());
+        // // console.log(svg.toString());
         // msg.send('add-symbol', svg);
 
         /*
             fabric.loadSVGFromString(svg.toString(), function (objects, options) {
                  var obj = fabric.util.groupSVGElements(objects, options);
-                 // console.log(JSON.stringify(obj));
+                 // // console.log(JSON.stringify(obj));
                  canvas.add(obj).renderAll();
                  canvas.setActiveObject(obj);
-                 // console.log("loaded");
+                 // // console.log("loaded");
              });
 
              var circle = new fabric.Circle({
@@ -474,10 +474,18 @@ var CanvasController = (function () {
         this.$scope.redoActive = b2;
     };
     CanvasController.prototype.duplicate = function () {
-        var object = fabric.util["object"].clone(canvas.getActiveObject());
+        var _obj = canvas.getActiveObject(),
+            _obj_type = _obj.type.toUpperCase(),
+            object = fabric.util["object"].clone(_obj),
+            is_clone = true;
+
         object.set("top", object.top + 10);
         object.set("left", object.left + 10);
-        $cmd.run('add-object', object);
+
+        if(_obj.type == 'group') {
+            _obj_type = DOType.SYMBOL;
+        }
+        $cmd.run('add', $canvas.create(_obj_type, object, is_clone));
     };
     CanvasController.prototype.rotate = function (angle) {
         this.selected.rotate(this.selected.getAngle() + angle);
@@ -500,10 +508,10 @@ var CanvasController = (function () {
     };
     CanvasController.prototype.textColor = function (lastVal, val) {
         var textObj = this.selected;
-        console.log('textColor: ' + textObj);
+        // console.log('textColor: ' + textObj);
         if (!textObj)
             return;
-        console.log('textColor');
+        // console.log('textColor');
         textObj.setColor('#' + val);
         canvas.renderAll();
     };
@@ -518,9 +526,9 @@ var CanvasController = (function () {
         var _this = this;
         fabric.loadSVGFromURL(url, function (objects, options) {
             var obj = fabric.util.groupSVGElements(objects, options);
-            console.log(obj);
+            // console.log(obj);
             $cmd.run('add', $canvas.create(DOType.SYMBOL, obj));
-            console.log("svg loaded");
+            // console.log("svg loaded");
         });
     };
     CanvasController.prototype.addImage = function (url) {
@@ -538,12 +546,12 @@ var CanvasController = (function () {
         obj.on('moving', this.onObjectMove);
     };
     CanvasController.prototype.onObjectSelect = function (e) {
-        console.log("select: ", e, this);
+        // console.log("select: ", e, this);
         CanvasController.instance.selected = e.target;
         canvas["object"] = e.target;
     };
     CanvasController.prototype.onObjectMove = function (e) {
-        console.log(e.target.get('left'), e.target.get('top'));
+        // console.log(e.target.get('left'), e.target.get('top'));
         msg.send('transformed', e);
     };
     CanvasController.prototype.onRedoClick = function () {
@@ -562,23 +570,16 @@ var CanvasController = (function () {
     CanvasController.prototype.removeGrid = function() {
         canvas.getObjects('line').forEach(function(obj) {
             if(typeof obj != 'undefined') {
-                console.log(obj);
+                // console.log(obj);
                 obj.remove();
             }
         });
     };
     CanvasController.prototype.removeObject = function() {
-        if(canvas.getActiveGroup()) {
-          canvas.getActiveGroup().forEachObject(function(o){ $cmd.run('remove', o); });
-          canvas.discardActiveGroup().renderAll();
-        } else {
-          $cmd.run('remove', canvas.getActiveObject());
-        }
+        $canvas.children.forEach(function(o) { if(o.selected) $cmd.run('remove', o); });
     };
     CanvasController.prototype.removeObjects = function() {
-        if(canvas.getObjects() != null) {
-            canvas.forEachObject(function(o){ $cmd.run('remove', o); });
-        }
+        $cmd.run('remove-all');
     };
     CanvasController.prototype.saveCanvas = function () {
         // First of all - deselect all active objects
@@ -729,11 +730,11 @@ var TransformController = (function () {
         _this.$scope.width = e.target.get('width') * e.target.scaleX;
         _this.$scope.height = e.target.get('height') * e.target.scaleY;
         _this.$scope.$apply();
-        console.log("scale", e.target.get('width'));
+        // console.log("scale", e.target.get('width'));
     };
     TransformController.prototype.onChangePosition = function () {
         var _this = TransformController.instance;
-        console.log("change", _this.selected, _this.$scope.y);
+        // console.log("change", _this.selected, _this.$scope.y);
         if (_this.selected == null)
             return;
         _this.selected.set('left', _this.$scope.x);
@@ -782,7 +783,7 @@ var ShadowController = (function () {
         }
         */
     ShadowController.prototype.onObjectSelected = function (dobj) {
-        console.log("erzer", dobj);
+        // console.log("erzer", dobj);
         this.$scope.enabled = dobj.shadow.enabled;
         var obj = dobj.raw;
         this.selectedObject = obj;
@@ -827,7 +828,7 @@ var AddTextController = (function () {
         msg.send('close-popups');
     };
     AddTextController.prototype.onOkClick = function () {
-        console.log(this.$scope.text);
+        // console.log(this.$scope.text);
         if (this.$scope.text) {
             msg.send('add-text', this.$scope.text);
             this.$scope.visible = false;
@@ -849,7 +850,7 @@ var DownloadLogoController = (function () {
         msg.on('open-downloadlogo', this.open, this);
     }
     DownloadLogoController.prototype.open = function () {
-        console.log('open-downloadlogo');
+        // console.log('open-downloadlogo');
         this.$scope.visible = true;
         this.$scope.text = "";
     };
@@ -885,7 +886,7 @@ var WelcomeController = (function () {
         this.$scope.text = "";
     };
     WelcomeController.prototype.onOkClick = function () {
-        console.log("onOkClick");
+        // console.log("onOkClick");
         this.visible = false;
         msg.send("close-popups");
     };
@@ -918,7 +919,7 @@ var ModifyController = (function () {
             setInterval(function() {
                 for(var key in objs) {
                     con += 0.1;
-                    console.log(objs[key]);
+                    // console.log(objs[key]);
                     objs[key].setScaleX(con);
                     objs[key].setScaleY(con);
                 }
@@ -980,7 +981,7 @@ var LoginController = (function () {
             try {
                 if (res.root.user.id == -1) {
                     // msg.send('open-popup');
-                    console.log("Not logged In");
+                    // console.log("Not logged In");
                     _this.$scope.logged = false;
                     window.logged = false;
                     _this.$scope.$apply();
@@ -991,7 +992,7 @@ var LoginController = (function () {
                     _this.$scope.logged = true;
                     window.logged = true;
                     _this.$scope.$apply();
-                    console.log("Welcome, " + _this.$scope.userfullname);
+                    // console.log("Welcome, " + _this.$scope.userfullname);
                 }
             }
             catch (e) {
@@ -1071,7 +1072,7 @@ var LoginController = (function () {
 
             //var cook = prompt("Coookie:", "");
             //setCookie('__cfduid', cook, 30);
-            //console.log("cookie: " + getCookie("__cfduid"));
+            //// console.log("cookie: " + getCookie("__cfduid"));
             var res = JSON.parse(xml2json(data, ''));
             if (res.error) {
                 msg.send('open-popup');
@@ -1093,7 +1094,7 @@ var LoginController = (function () {
                 //    msg.send('close-popups');
                 //    _this.$scope.visible = false;
                 // }, 5000);
-                console.log("Invalid username or password");
+                // console.log("Invalid username or password");
 
                 // alert("Invalid username or password");
                 _this.$scope.logged = false;
@@ -1102,11 +1103,11 @@ var LoginController = (function () {
             }
             else if (res.root) {
                 _this.$scope.userfullname = res.root.user.name;
-                console.log(_this);
+                // console.log(_this);
                 _this.$scope.logged = true;
                 window.logged = true;
                 _this.$scope.$apply();
-                console.log("Welcome, " + _this.$scope.userfullname);
+                // console.log("Welcome, " + _this.$scope.userfullname);
             }
         }, "xml");
     };
@@ -1192,7 +1193,7 @@ var ObjectsController = (function () {
         }
     };
     ObjectsController.prototype.onSelectionCleared = function (e) {
-        console.log(e);
+        // console.log(e);
         var _this = ObjectsController.instance;
         _this.selectObject(e.target, false);
         //_this.$scope.$apply();
@@ -1209,7 +1210,8 @@ var ObjectsController = (function () {
         var disObj = new DisplayObject();
         disObj.raw = obj;
         this.items.unshift(disObj);
-        alert("onObjectAdd");
+        // $canvas.children.unshift(disObj);
+        // alert("onObjectAdd");
         // disObj.type = obj.type.toUpperCase();
         // if (disObj.type == "PATH-GROUP") disObj.type = "SYMBOL";
         disObj.name = "OBJECT " + this.items.length;
@@ -1251,7 +1253,6 @@ var ObjectsController = (function () {
     };
     ObjectsController.prototype.removeObj = function () {
         msg.send('remove-object');
-
     };
     ObjectsController.prototype.onDeleteClick = function () {
         this.removeObj();
@@ -1279,7 +1280,7 @@ var PopupController = (function () {
     };
     PopupController.prototype.open = function () {
         this.$scope.visible = true;
-        console.log("open-popup-" + this.id);
+        // console.log("open-popup-" + this.id);
     };
     PopupController.prototype.close = function () {
         this.$scope.visible = false;
@@ -1391,7 +1392,7 @@ var TextController = (function () {
         this.textColor = val;
     };
     TextController.prototype.onObjectSelected = function (obj) {
-        console.log('obj.type: ' + obj.type);
+        // console.log('obj.type: ' + obj.type);
         this.$scope.visible = (obj.type == "text");
     };
     TextController.prototype.onFontClick = function () {
@@ -1416,7 +1417,7 @@ var RenameController = (function (_super) {
         $canvas.rename(dobj, oldname);
     };
     RenameController.prototype.onOkClick = function () {
-        console.log('okclick-rename', this.$scope.newname);
+        // console.log('okclick-rename', this.$scope.newname);
         $cmd.run('rename', $canvas.selection[0], $canvas.selection[0].name, this.$scope.newname);
         this.close();
     };
@@ -1452,9 +1453,9 @@ var SymbolColorController = (function () {
         return $canvas.selection.length > 0 && $canvas.activePaths.length > 0;
     };
     SymbolColorController.prototype.onObjectSelected = function (obj) {
-        console.log('symbolcolor-enabled; ', this.enabled());
+        // console.log('symbolcolor-enabled; ', this.enabled());
         this.$scope.visible = this.enabled();
-        //console.log('obj.type: ' + obj.type);
+        //// console.log('obj.type: ' + obj.type);
         //this.$scope.visible = (obj.type == "text");
     };
     SymbolColorController.prototype.onFontClick = function () {
@@ -1543,7 +1544,7 @@ var KeysBinder = (function () {
         evtobj.preventDefault();
         if (evtobj.keyCode == 17) {
             this.ctrlPressed = false;
-            console.log("ctrlPressed=false");
+            // console.log("ctrlPressed=false");
         }
     };
     return KeysBinder;
@@ -1625,7 +1626,7 @@ var CanvasService = (function () {
         };
         this.root = canvas;
         canvas.on('mouse:down', function (e) {
-            console.log('down', e);
+            // console.log('down', e);
         });
         $cmd.map('add-object', this.add, this);
         $cmd.mapUndo('add-object', function (rawobj) {
@@ -1644,6 +1645,8 @@ var CanvasService = (function () {
         $cmd.mapUndo('add', this.remove);
         $cmd.map('remove', this.remove, this);
         $cmd.mapUndo('remove', this.add, this);
+        $cmd.map('remove-all', this.removeAll, this);
+        // $cmd.mapUndo('remove-all', this.removeAll, this);
         $cmd.map('shadow', this.shadow, this, 0 /* SWITCH */);
         $cmd.map('symbol-color', this.symbolColor, this, 0 /* SWITCH */);
         this.root.on('object:selected', function (e) {
@@ -1659,31 +1662,40 @@ var CanvasService = (function () {
         this.root.on('mouse:down', this.onMouseDown);
         window.requestAnimationFrame(this.renderLoop);
     }
-    CanvasService.prototype.create = function (type, object) {
+    CanvasService.prototype.create = function (type, object, clone) {
         var dobj = new DisplayObject();
         dobj.id = this.idIndex++;
         dobj.type = type;
         dobj.name = "OBJECT" + this.idIndex;
-        if (type == DOType.SYMBOL) {
+        if ((type == DOType.SYMBOL) && (!clone)) {
             dobj.raw = new fabric.Group(object.getObjects());
-            console.log("this is a symbol");
+            // console.log("this is a symbol");
+        }
+        else if((type == DOType.SYMBOL) && clone) {
+            var objs = canvas.getObjects('group');
+            for(var key in objs) {
+                if(objs[key].active) {
+                    dobj.raw = (objs[key]);
+                }
+            }
+            dobj.raw = object;
         }
         else {
             dobj.raw = object;
         }
+        console.log(dobj);
         return dobj;
     };
     CanvasService.prototype.add = function (dobj) {
-        console.log(dobj);
         dobj.selected = true;
         this.root.add(dobj.raw).renderAll();
         this.children.unshift(dobj);
-        console.log(this.children);
+        // console.log(this.children);
         this.select(dobj);
         if (dobj.type == DOType.SYMBOL) {
             for (var i = 0; i < dobj.raw.getObjects().length; i++) {
                 var path = dobj.raw.getObjects()[i];
-                console.log('path found', path.getFill());
+                // console.log('path found', path.getFill());
             }
         }
         //msg.send('object-added', obj);
@@ -1701,15 +1713,24 @@ var CanvasService = (function () {
             canvas.discardActiveObject();
             this.unselectAll();
         }
-        this.root.remove(dobj);
-        console.log('remove', dobj, dobj.raw);
+        this.root.remove(dobj.raw);
         this.root.renderAll();
+    };
+    CanvasService.prototype.removeAll = function () {
+        for(var i = this.children.length - 1; i >= 0; i--) {
+            if(typeof this.children[i] != 'undefined') {
+                this.root.remove(this.children[i].raw);
+                this.children.splice(i, 1);
+            } else {
+                console.log("undefined: " + i);
+            }
+        }
     };
     CanvasService.prototype.rename = function (dobj, newname) {
         dobj.name = newname;
     };
     CanvasService.prototype.shadow = function (dobj, oldshadow, shadow) {
-        console.log(oldshadow, shadow);
+        // console.log(oldshadow, shadow);
         dobj.shadow = shadow;
         if (shadow.enabled) {
             dobj.raw.setShadow(shadow);
@@ -1731,7 +1752,7 @@ var CanvasService = (function () {
     };
     CanvasService.prototype.symbolColor = function (dobj, oldcolor, newcolor) {
         var paths = this.getPathsByColor(dobj, oldcolor);
-        console.log('setFill', paths.length, newcolor);
+        // console.log('setFill', paths.length, newcolor);
         for (var i = 0; i < paths.length; i++) {
             paths[i].setFill(newcolor);
         }
@@ -1823,7 +1844,7 @@ var NgApp = (function () {
     };
     return NgApp;
 })();
-//console.log('NgApp.name: ' + NgApp.name);
+//// console.log('NgApp.name: ' + NgApp.name);
 var NgController = (function () {
     function NgController($scope, $cmd, $msg) {
         this.$scope = $scope;

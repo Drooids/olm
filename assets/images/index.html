@@ -1,0 +1,468 @@
+<html lang="en" ng-app="OLM">
+<head>
+    <meta charset="utf-8" />
+    <title>Online Logo Maker</title>
+    <link rel="stylesheet" href="app.css?v=0.95" type="text/css" />
+    <link rel="stylesheet" href="css/mlColorPicker.css" type="text/css" />
+    <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
+    <script src="js/fabric.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="js/mlColorPicker.js"></script>
+    <script src="js/xml2js.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0-beta.6/angular-sanitize.js"></script>
+    <script src="js/angular-utf8-base64.min.js"></script>
+    <script src="js/blob.js"></script>
+    <script src="js/canvas-toBlob.js"></script>
+    <script src="js/fileSaver.js"></script>
+    <script src="js/olm.js?v=0.176"></script>
+    <script src="js/tools.js?v=3"></script>
+</head>
+<body>
+    
+    <div class="top">
+    <div class="left">
+
+        <!-- Brand logo -->
+        <div class="logo"></div>
+
+        <!-- Tools toolbar -->
+        <div ng-controller="ToolsController" class="panel tools">
+
+            <div class="header">TOOLS</div>
+            <div  class="ctooltip ctooltip-1">
+                <span class="tooltip" style="padding:5px; display: none;">Add Symbol (CTRL-I)</span>
+                <div ng-click="$.addSymobol()" class="button"><a href="#"><img src="assets/addSymbol.png" style="width: 100%; height: 100%" /></a></div>
+            </div>
+
+            <div  class="ctooltip ctooltip-1">
+            <span class="tooltip" style="display: none;">Add Text (CTRL-T)</span>
+                <div ng-click="$.addText()" class="button"><a href="#"><img src="assets/addText.png" style="width: 100%; height: 100%"></a></div>
+            </div>
+
+            <div class="ctooltip ctooltip-1">
+                <span class="tooltip" style="padding:5px; display: none;">Upload Image (CTRL-U)</span>
+                <div class="button fileupload"><input id="fileupload" type="file" /><a href="#" title="Upload Image (CTRL-U)"><img src="assets/uploadImage.png" style="width: 100%; height: 100%"></a></div>
+            </div>
+
+            <div class="ctooltip ctooltip-1">
+            <span class="tooltip" style="padding:5px; display: none;">Download Logo (CTRL-D)</span>
+                <div ng-click="$.downloadLogo()" class="button"><a href="#"><img src="assets/downloadLogo.png" style="width: 100%; height: 100%"></a></div>
+            </div>
+
+            <div class="ctooltip ctooltip-1">
+                <span class="tooltip" style="padding:5px; display: none;">Save Project (CTRL-S)</span>
+                <div ng-click="$.saveProject()" class="button"><a href="#"><img src="assets/saveProject.png" style="width: 100%; height: 100%"></a></div>
+            </div>
+
+        </div>
+
+        <div ng-controller="LoginController" class="panel login">
+            <form ng-submit="$.onLoginClick()">
+                <!-- hide -->
+                <div ng-hide="logged" class="logged login-user"><input ng-model="username" placeholder="Username" type="text"/></div>
+                <div ng-hide="logged" class="logged login-pass"><input ng-model="password" placeholder="Password" type="password"/></div>
+                <!-- show -->
+                <div ng-show="logged" class="logged">Welcome, {{ userfullname }}</div>
+                <!-- hide -->
+                <a ng-hide="logged" ng-click="$.onFacebookClick()" href="#" class="not-logged">
+                    <img src="assets/images/facebook-icon.png"/>
+                </a>
+                <a ng-hide="logged" ng-click="$.onTwitterClick()" href="#" class="not-logged">
+                    <img src="assets/images/twitter-icon.png"/>
+                </a>
+                <!-- hide -->
+                <div id="id-not-logged-in" ng-hide="logged" class="login-btns" style="margin-top:-28px;">
+                    <div>
+                        <a ng-click="$.onRegisterClick()" class="btn btn-blue" href="#">REGISTER</a>
+                    </div>
+                    <div>or</div>  
+                    <div>
+                        <a ng-click="$.onLoginClick()" class="btn btn-green" href="#">LOGIN</a>
+                        <input type="submit" id="submit" value="Submit" style="display:none;" />
+                        <button type="submit" style="display:none;"></button>
+                    </div>
+                </div>
+                <!-- show -->
+                <div id="id-logged-in" ng-show="logged" class="login-btns" style="padding-top:15%">
+                    <a ng-click="$.onFacebookClick()" href="#"><img src="assets/images/facebook-icon.png"/></a>
+                    <a ng-click="$.onTwitterClick()" href="#"><img src="assets/images/twitter-icon.png"/></a>
+                    <div>
+                        <a ng-click="$.onAccountClick()" class="btn btn-blue" href="#">MY ACCOUNT</a>
+                    </div>
+                    <div></div>  
+                    <div>
+                        <a ng-click="$.onLogoutClick()" class="btn btn-green" href="#">LOGOUT</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div ng-controller="CanvasController" class="working panel">
+        <div class="header">WORKING PANEL</div>
+        <div class="content">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div class="footer">
+            <span style="position:relative; top:-5;">UNDO</span> <img ng-click="$.onUndoClick()" ng-class="{false: 'inactive'}[undoActive]" src="assets/images/undo_icon.png"  title="Undo (CTRL-Z)"/>
+            <img ng-click="$.onRedoClick()" ng-class="{false: 'inactive'}[redoActive]" src="assets/images/redo_icon.png" title="Redo (CTRL-Y)"/> <span style="position:relative; top:-5;">REDO</span>
+        </div>
+    </div>
+
+    <div ng-controller="ObjectsController" class="objects panel">
+        <div class="header">OBJECTS</div>
+        <div class="content">
+            <div ng-repeat="item in items track by $index" ng-click="$.onItemClick($index)" ng-dblclick="$.onItemDoubleClick($index)" ng-class="{true: 'object-active'}[item.selected]" class="object-item">{{ item.name }} ({{ item.type }})</div>
+        </div>
+        <div class="objects-footer">
+            <div class="ctooltip" style="display:inline;">
+                <span class="tooltip md rename-obj" style="padding:5px; display: none;">Rename Object (CTRL + R)</span>
+                <a ng-click="$.onRenameClick()" href="#"><img src="assets/images/rename_object_icon.png"/></a>
+            </div>
+            <div class="ctooltip" style="display:inline;">
+                <span class="tooltip md del-obj" style="padding:5px; display: none;">Delete Object (Del / Delete)</span>
+                <a ng-click="$.onDeleteClick()" href="#"><img src="assets/images/delete_object_icon.png"/></a>
+            </div>
+            <div class="ctooltip" style="display:inline;">
+                <span class="tooltip md del-all-obj" style="padding:5px; display: none;">Delete All Objects (Ctrl + Delete)</span>
+                <a ng-click="$.onDeleteAllClick()" href="#"><img src="assets/images/trash_icon.png"/></a>
+            </div>
+ 
+            <div class="object-arrows">
+                <div class="ctooltip" style="display:inline;">
+                    <span class="tooltip md arr-up" style="padding:5px; display: none;">Move Object Up (Ctrl + Arrow Up)</span>
+                    <a ng-click="$.onMoveUpClick()" href="#"><img src="assets/images/move_object_up_icon.png"/></a>
+                </div>
+                <div class="ctooltip" style="display:inline;">
+                    <span class="tooltip md arr-down" style="padding:5px; display: none;">Move Object Down (Ctrl + Arrow Down)</span>
+                    <a ng-click="$.onMoveDownClick()" href="#"><img src="assets/images/move_object_down_icon.png"/></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="footer panel">
+
+        <div ng-controller="TransformController" class="footer-panel size">
+            <div class="container">
+                <div class="header">
+                    OBJECT <span>POSITION/SIZE</span>
+                </div>
+                <div class="object-position">
+                    <div style="float:left; padding-left:15px">OBJECT <span class="wine-color">X:</span></div>
+                    <div><input class="input position" ng-model="x" type="number"></input> PIX</div>
+                    <div style="float:left; padding-left:15px">OBJECT <span class="wine-color">Y:</span></div>
+                    <div><input class="input position" ng-model="y" type="number"></input> PIX</div>
+                </div>
+                <div class="object-size">
+                    <div style="float:left; padding-left:15px">OBJECT <span class="wine-color">WIDTH:</span></div>
+                    <div><input class="input position" ng-model="width" type="number"></input> PIX</div>
+                    <div style="float:left; padding-left:15px">OBJECT <span class="wine-color">HEIGHT:</span></div>
+                    <div><input class="input position" ng-model="height" type="number"></input> PIX</div>
+                </div>
+            </div>
+        </div>
+        <div ng-controller="ShadowController" class="footer-panel shadow">
+            <div class="container">
+                <div class="header">
+                    OBJECT <span>SHADOW</span>
+                    <div class="btn-onoff" ng-class="{true: 'btn-on', false: 'btn-off'}[enabled]" ng-click="$.onOnOffClick()"></div>
+                </div>
+                <div class="shadow-direction">
+                    SHADOW
+                    <span class="wine-color">DIRECTION:</span>
+                    <div class="input shadow">
+                        <input ng-model="direction" type="number" min="0" max="359" step="1" value="45" size="6">
+                    </div>
+                </div>
+                <div class="shadow-outset">
+                    SHADOW
+                    <span class="wine-color">OUTSET:</span>
+                    <div class="input shadow">
+                        <input ng-model="outset" type="number" min="2" max="70" step="1" value="45" size="6">
+                    </div>
+                </div>
+                <div  id="shadow-picker"></div>
+                <div class="shadow-color">
+                    <div>SHADOW</div>
+                    <div class="wine-color">COLOR:  </div>
+                    
+                    <a ng-click="$.onColorClick()" href="#">
+                        <div class="shadow-picker"></div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div ng-controller="ModifyController" class="modify footer-panel">
+            <div class="container">
+                <div class="header">
+                    MODIFY <span>OBJECTS</span>
+                </div>
+                <div class="modify-move">
+                    <div>Move</div>
+
+                        <div class="ctooltip">
+                            <span class="tooltip md up" style="padding:5px; display: none;">Shift Object Up (Arrow up)</span>
+                            <a ng-click="$.moveUp()" class="modify-moveup" href="#"><img src="assets/images/modify_object/moveup.png"/></a> 
+                        </div>
+
+
+                        <div class="ctooltip">
+                            <span class="tooltip md left" style="padding:5px; display: none;">Shift Object Left (Arrow Left)</span>
+                                <a ng-click="$.moveLeft()" class="modify-moveleft" href="#"><img src="assets/images/modify_object/moveleft.png"/></a>
+                        </div>
+
+
+                        <div class="ctooltip">
+                            <span class="tooltip md right" style="padding:5px; display: none;">Shift Object Right (Arrow Right)</span>
+                                <a ng-click="$.moveRight()" class="modify-moveright" href="#"><img src="assets/images/modify_object/moveright.png"/></a> 
+                        </div>
+
+                        <div class="ctooltip">
+                            <span class="tooltip md down" style="padding:5px; display: none;">Shift Object Down (Arrow Down)</span>
+                                <a ng-click="$.moveDown()" class="modify-movedown" href="#"><img src="assets/images/modify_object/movedown.png"/></a>
+                        </div>
+                </div>
+                <div class="modify-scale">
+                    <div>Scale</div>
+                        <div class="ctooltip">
+                            <span class="tooltip md inc-obj-size" style="padding:5px; display: none;">Increase Objcet Size (+)</span>
+                            <a ng-click="$.zoomIn()" href="#"><img src="assets/images/modify_object/zoomin.png"/></a>   
+                        </div>
+                        <div class="ctooltip">
+                            <span class="tooltip md dec-obj-size" style="padding:5px; display: none;">Decrease Objcet Size (-)</span>
+                            <a ng-click="$.zoomOut()"  href="#"><img src="assets/images/modify_object/zoomout.png"/></a>  
+                        </div>
+                </div>
+                <div class="modify-rotate">
+                    <div>Rotate</div>
+                    <div class="ctooltip">
+                        <span class="tooltip md rot-obj-ccw" style="padding:5px; display: none;">Rotate Object Counterclockwise (Ctrl + Num 7)</span>
+                        <a ng-click="$.rotateCCW()" href="#"><img src="assets/images/modify_object/rotateccw.png"/></a>   
+                    </div>
+                    <div class="ctooltip">
+                        <span class="tooltip md rot-obj-cw" style="padding:5px; display: none;">Rotate Object Clockwise (Ctrl + Num 9)</span>
+                        <a ng-click="$.rotateCW()"  href="#"><img src="assets/images/modify_object/rotatecw.png"/></a>  
+                    </div>
+                </div>
+                <div class="modify-duplicate">
+                    <div>Duplicate</div>
+                    <div class="ctooltip">
+                        <span class="tooltip md dup-obj" style="padding:5px; display: none;">Duploicate Object (Ctrl + K)</span>
+                        <a ng-click="$.duplicate()" href="#"><img src="assets/images/modify_object/duplicate.png"/></a>  
+                    </div> 
+                </div>
+            </div>
+        </div>
+        <div ng-controller="SymbolColorController" ng-show="visible" class="footer-panel symbolcolor">
+            <div class="header">
+                SYMBOL <span>COLOR</span>
+            </div>
+            <div class="container">
+                <span>COLOR:</span>
+                    <a ng-click="$.onColorClick()" href="#">
+                        <div class="color-picker"></div>
+                    </a>
+                <br>
+                <span>INVISIBLE:</span>
+                <a ng-click="$.onInvisibleClick()" href="#">
+                        <div class="eye" ng-class="{true: 'eye-on', false: 'eye-off'}[pathsVisible]"></div>
+                </a>
+            </div>
+        </div>
+        <div ng-controller="TextController" ng-show="visible" class="footer-panel textformat">
+            <div class="header">
+                TEXT <span>FORMAT</span>
+            </div>
+            <div class="container">
+                <span>Font:</span>
+                    <a ng-click="$.onFontClick()" href="#">
+                        <div class="font-picker"></div>
+                    </a>
+                <br>
+                <span>Color:</span>
+                <a ng-click="$.onColorClick()" href="#">
+                        <div class="text-picker"></div>
+                </a>
+            </div>
+        </div>
+        <div class="content color">
+            <div class="header">
+                SYMBOL <span>COLOR</span>
+            </div>
+        </div>
+        <div class="resources footer-panel">
+            <div class="header">
+                RESOURCES
+            </div>
+            <div class="resources-content">
+                <div>
+                    <div class="ctooltip" style="display:inline;">
+                    <span class="tooltip md resc" style="display: none;">Blog</span>
+                        <a href="http://blog.onlinelogomaker.com/" target="_blank"><img src="assets/images/blog_icon.png"/></a>
+                    </div>
+                    <div class="ctooltip" style="display:inline;">
+                    <span class="tooltip md resc" style="display: none;">Contribute</span>
+                        <a href="http://www.onlinelogomaker.com/share" target="_blank"><img src="assets/images/contribute_icon.png"/></a>
+                    </div>
+                </div>
+                <div>
+                    <div class="ctooltip" style="display:inline;">
+                    <span class="tooltip md resc" style="display: none;">Tutorial (F1)</span>
+                        <a href="http://www.onlinelogomaker.com/tutorial" target="_blank"><img src="assets/images/tutorial_icon.png"/></a>
+                    </div>
+                    <div class="ctooltip" style="display:inline;">
+                    <span class="tooltip md resc" style="display: none;">Contact</span>
+                        <a href="http://www.onlinelogomaker.com/contact" target="_blank"><img src="assets/images/contact_icon.png"/></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+
+    <div ng-controller="PopupsController" ng-show="visible" class="popups">
+
+        <div ng-controller="SymbolsController" ng-show="visible" class="panel popup symbols fade">
+            <div class="header"><div class="icon icon-symbol"></div><div class="title">SYMBOL SELECTION</div></div>
+            <div class="content categories">
+                <div class="content-header">
+                    Select Category
+                </div>
+                <div class="category-list">
+                    <div ng-repeat="item in $.categories" ng-click="$.onCategoryClick($index)" class="category-item {{ $.getCategoryStyle($index) }}">
+                        <a href="#">
+                            <div>{{ item.name }}</div>
+                            <div class="category-icon">
+                                <img src="assets/images/add_symbols_icon.png"/>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="content list">
+                <div class="content-header">
+                    Choose Symbol
+                </div>
+                <div class="symbol-list">
+                    <!--        <div ng-repeat="item in $.getSelectedCategorySymbols() track by $index" ng-click="$.onSymbolClick($index)" class="symbol-item {{ $.getSymbolStyle($index) }}"> <div ng-bind-html="item"></div>
+                            </div>-->
+                    <div class="" style="padding:15px;" ng-repeat="item in $.getSelectedCategorySymbols() track by $index" ng-click="$.onSymbolClick($index, $event)">
+                        <img width="80px" height="80px" src="{{ $.symbolsRootUrl }}{{ item }}.svg" />
+                    </div>
+                </div>
+            </div>
+            <div class="symbols-footer">
+                <a ng-click="$.onCancelClick()" class="btn btn-grey" href="#">CANCEL</a>
+                <a ng-click="$.onOkClick()" class="btn btn-blue" href="#">OK</a>
+            </div>
+        </div>
+
+        <div ng-controller="AddTextController" ng-show="visible" class="addtext panel popup fade">
+            <div class="header">Add Text</div>
+            <div class="content">
+                Enter Text:<br>
+                <textarea ng-model="text"></textarea>
+            </div>
+            <div class="popup-footer">
+                <a ng-click="$.onCancelClick()" class="btn btn-grey" href="#">CANCEL</a>
+                <a ng-click="$.onOkClick()" class="btn btn-blue" href="#">OK</a>
+            </div>
+        </div>
+
+        <div ng-controller="DownloadLogoController" ng-show="visible" class="panel popup fade downloadlogo">
+            <div class="header">LOGO DOWNLOAD</div>
+            <div class="content">
+                <div style="font-weight:normal; font-size: 10px">Image Dimentions</div>
+                <div style="padding:10px 0;">
+                    <div class="column">
+                        <span style="float:left; margin-top:6px; font-size: 10px; font-weight:normal; font-size: 10px;">Width:</span>
+                        <div class="input position" style="margin-left:50px;"> 
+                            <input ng-model="$.width" type="number" style="font-size:14px; color:#a5a6a6;" />
+                        </div>
+                        <span style="float:right; margin-top:-20px; position: relative; left:-16px;  font-size: 10px; font-weight: normal; color:#a5a6a6;">px </span>
+                    </div>
+                    <div class="column">
+                        <span style="float:left; margin-top:6px; font-size: 10px; font-weight:normal; font-size: 10px;">Height:</span>
+                        <div class="input position" style="margin-left:50px;"> 
+                            <input ng-model="$.height" type="number" style="font-size:14px; color:#a5a6a6;" />
+                        </div>
+                        <span style="float:right; margin-top:-20px; position: relative; left:-15px;  font-size: 10px; font-weight: normal; color:#a5a6a6;">px </span>
+                    </div>
+                    <br>
+                </div>
+                <div style="margin-top:14px; padding-top:2px;  border-top: 1px solid #a5a6a6;">
+                    Constrain Proportions <input style="position:relative; top:5px;" ng-model="$.constrainProportions" type="checkbox"/>
+                    Use Working Area Color<input style="position:relative; top:5px;" ng-model="$.useWorkingAreaColor" type="checkbox"/>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <a ng-click="$.onCancelClick()" class="btn btn-grey" href="#">CANCEL</a>
+                <a ng-click="$.onOkClick()" class="btn btn-blue" id="dl" download="logo.png" href="#">OK</a>
+            </div>
+        </div>
+
+        <div ng-controller="WelcomeController" ng-show="$.visible" class="panel popup fade welcome">
+            <div class="header">WELCOME TO ONLINE LOGO MAKER</div>
+            <div class="content">
+                Online Logo Maker is easy to use and you can figure out most functions at a glance, but you can always 
+                <a href="http://www.onlinelogomaker.com/tutorial">read our tutorial</a> first:<br>
+                <br>
+                To start your project, press the Trash icon to clean the background.
+            </div>
+            <div class="popup-footer">
+                <a ng-click="$.onOkClick()" class="btn btn-blue" href="#">OK</a>
+            </div>
+        </div>
+
+        <div ng-controller="ConfirmationController" ng-show="visible" class="panel popup fade popup-confirmation ">
+            <div class="header">CONFIRMATION</div>
+            <div class="content">
+                <br>
+                Would you like to save your project to edit later?
+            </div>
+            <div class="popup-footer">
+                <a ng-click="$.onYesClick()" class="btn btn-blue" href="#">YES</a>
+                <a ng-click="$.onNoClick()" class="btn btn-blue" href="#">NO</a>
+            </div>
+        </div>
+
+        <div ng-controller="FontSelectionController" ng-show="visible" class="panel popup fade popup-fontselection ">
+            <div class="header">FONT SELECTION</div>
+            <div class="content">
+                <a ng-click="$.onNormalClick()" href="#">Normal</a>
+                <a ng-click="$.onEastClick()" href="#">East</a>
+                <div ng-repeat="item in $.items track by $index" ng-click="$.onItemClick($index)" ng-class="{false: 'font-active'}[item.active]"><img src="assets/fonts/{{ item.name }}.png"/></div>
+            </div>
+            <div class="popup-footer">
+                <a ng-click="$.onCancelClick()" class="btn btn-grey" href="#">CANCEL</a>
+                <a ng-click="$.onOkClick()" class="btn btn-blue" href="#">OK</a>
+            </div>
+        </div>
+
+        <div ng-controller="RenameController" ng-show="visible" class="panel popup fade popup-rename ">
+            <div class="header">RENAME OBJECT</div>
+            <div class="content">
+                Insert new name:
+                <div class="input"><input ng-model="newname" type="text"></input></div>
+            </div>
+            <div class="popup-footer">
+                <a ng-click="$.onCancelClick()" class="btn btn-grey" href="#">CANCEL</a>
+                <a ng-click="$.onOkClick()" class="btn btn-blue" href="#">OK</a>
+            </div>
+        </div>
+
+        <div ng-controller="LoginController" id="id-auth" class="panel popup auth" style="display:none;">
+            <div class="header">Alert</div>
+            <div class="content auth-content">
+            </div>
+            <div class="popup-footer">
+                <a ng-click="$.onOkClick()" class="btn btn-blue" href="#">OK</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

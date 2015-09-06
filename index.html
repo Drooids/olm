@@ -1,8 +1,8 @@
-<html lang="en" ng-app="OLM">
+<html lang="en" ng-app="OLM"
 <head>
     <meta charset="utf-8" />
     <title>Online Logo Maker</title>
-    <link rel="stylesheet" href="app.css?v=0.99" type="text/css" />
+    <link rel="stylesheet" href="app.css?v=0.101" type="text/css" />
     <link rel="stylesheet" href="css/mlColorPicker.css" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
     <script src="js/fabric.js"></script>
@@ -16,7 +16,7 @@
     <script src="js/blob.js"></script>
     <script src="js/canvas-toBlob.js"></script>
     <script src="js/fileSaver.js"></script>
-    <script src="js/olm.js?v=0.166"></script>
+    <script src="js/olm.js?v=0.123"></script>
     <script src="js/tools.js?v=3"></script>
 </head>
 <body>
@@ -110,7 +110,7 @@
             <img ng-click="$.onRedoClick()" ng-class="{false: 'inactive'}[redoActive]" src="assets/images/redo_icon.png" title="Redo (CTRL-Y)"/> <span style="position:relative; top:-5;">REDO</span>
             <span style="float:right;">
                 <span style="position:relative; top:-5; font-size:12px;">BACKGROUND COLOR </span>
-                <a ng-click="$.onColorClick()" href="#">
+                <a ng-click="$.onColorClick(); alert('comming soon!);'" href="#">
                     <img src="assets/images/DropdownColorPickerBg.png" style="height:25px;">
                 </a>
                 <a style="float:right; vertical-align:middle; padding-top:5px;" class="btn btn-grey">
@@ -303,7 +303,7 @@
             </div>
         </div>
         <div class="resources footer-panel">
-            <div class="header">
+            <div class="container header">
                 RESOURCES
             </div>
             <div class="resources-content">
