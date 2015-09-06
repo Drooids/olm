@@ -414,11 +414,9 @@ var CanvasController = (function () {
         canvas.setWidth(750);
         canvas.setHeight(600);
 
-        var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <defs/>\n  <g>\n    <path stroke=\"none\" fill=\"#6633ff\" d=\"M31.4 0.35 Q34.45 1.25 36.6 4.35 37.9 6.3 38.5 8.65 39.1 10.85 38.95 13.25 38.85 14.9 38.35 16.4 L38.15 17.05 Q37.55 18.8 36.55 20.2 L38.1 21.4 39.4 22.9 Q40.45 24.4 40.45 25.8 40.5 27.15 39.65 28.15 38.95 29 37.75 29.35 L35.1 29.65 32.65 29.2 Q31.5 28.8 30.45 28.2 28.5 27 27.35 25.4 L26.85 24.55 26.55 23.75 Q25.1 23.2 23.85 22.2 22.65 21.25 21.75 19.9 20.65 18.3 20.05 16.4 L19.6 14.75 Q19.3 13.1 19.4 11.4 19.45 9.5 20 7.8 20.7 5.4 22.15 3.55 23.65 1.7 25.7 0.8 28.5 -0.5 31.4 0.35 M35.1 6.7 Q33.3 4.1 30.75 3.2 28.35 2.35 25.95 3.2 24.15 3.8 22.75 5.3 21.4 6.75 20.65 8.8 20.15 10.3 20 11.95 19.9 13.5 20.15 15.05 L20.5 16.4 Q21 18.25 22.1 19.85 L24.1 22 Q25.25 22.9 26.6 23.35 L26.95 24.15 27.4 24.9 Q28.45 26.45 30.2 27.45 L32.2 28.3 34.4 28.65 36.7 28.25 Q37.7 27.85 38.3 27.05 38.95 26.15 38.85 24.95 38.8 23.65 37.9 22.35 L36.75 21.05 Q36.15 20.5 35.4 20.05 36.25 18.8 36.7 17.3 L36.95 16.4 37.2 14.05 Q37.3 12.1 36.75 10.25 36.25 8.35 35.1 6.7 M8.95 18.6 L11.4 18.3 14.75 18.55 Q17.65 19.1 19.9 20.65 21.3 21.6 22.2 22.8 23.25 24.05 23.75 25.45 L24.55 25.8 25.4 26.3 Q27.05 27.45 28.2 29.35 L29.2 31.55 29.7 34 Q29.8 35.5 29.4 36.7 29 37.9 28.15 38.6 27.15 39.45 25.8 39.4 24.4 39.35 22.9 38.3 22.1 37.8 21.4 37.05 L20.25 35.45 Q18.8 36.45 17.05 37.1 15.25 37.75 13.25 37.85 L8.95 37.5 8.65 37.45 Q6.3 36.85 4.4 35.5 1.25 33.35 0.35 30.3 -0.5 27.45 0.8 24.6 1.7 22.6 3.6 21.1 5.4 19.65 7.8 18.9 L8.95 18.6 M5.3 21.65 Q3.8 23.05 3.2 24.85 2.35 27.3 3.2 29.7 4.1 32.25 6.75 34.05 7.75 34.75 8.95 35.25 L10.25 35.7 14.05 36.15 17.3 35.6 Q18.8 35.15 20.05 34.35 L21.1 35.7 22.35 36.8 Q23.65 37.7 24.95 37.8 26.15 37.85 27.05 37.2 27.85 36.65 28.25 35.6 28.7 34.6 28.65 33.3 28.65 32.25 28.3 31.15 L27.45 29.15 Q26.4 27.35 24.9 26.3 L24.15 25.85 23.4 25.55 Q22.9 24.2 22 23 21.1 21.9 19.85 21 17.7 19.55 15.05 19.1 L12 18.95 8.95 19.55 8.8 19.6 Q6.75 20.35 5.3 21.65\"/>\n  </g>\n</svg>";
-
+        // var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <defs/>\n  <g>\n    <path stroke=\"none\" fill=\"#6633ff\" d=\"M31.4 0.35 Q34.45 1.25 36.6 4.35 37.9 6.3 38.5 8.65 39.1 10.85 38.95 13.25 38.85 14.9 38.35 16.4 L38.15 17.05 Q37.55 18.8 36.55 20.2 L38.1 21.4 39.4 22.9 Q40.45 24.4 40.45 25.8 40.5 27.15 39.65 28.15 38.95 29 37.75 29.35 L35.1 29.65 32.65 29.2 Q31.5 28.8 30.45 28.2 28.5 27 27.35 25.4 L26.85 24.55 26.55 23.75 Q25.1 23.2 23.85 22.2 22.65 21.25 21.75 19.9 20.65 18.3 20.05 16.4 L19.6 14.75 Q19.3 13.1 19.4 11.4 19.45 9.5 20 7.8 20.7 5.4 22.15 3.55 23.65 1.7 25.7 0.8 28.5 -0.5 31.4 0.35 M35.1 6.7 Q33.3 4.1 30.75 3.2 28.35 2.35 25.95 3.2 24.15 3.8 22.75 5.3 21.4 6.75 20.65 8.8 20.15 10.3 20 11.95 19.9 13.5 20.15 15.05 L20.5 16.4 Q21 18.25 22.1 19.85 L24.1 22 Q25.25 22.9 26.6 23.35 L26.95 24.15 27.4 24.9 Q28.45 26.45 30.2 27.45 L32.2 28.3 34.4 28.65 36.7 28.25 Q37.7 27.85 38.3 27.05 38.95 26.15 38.85 24.95 38.8 23.65 37.9 22.35 L36.75 21.05 Q36.15 20.5 35.4 20.05 36.25 18.8 36.7 17.3 L36.95 16.4 37.2 14.05 Q37.3 12.1 36.75 10.25 36.25 8.35 35.1 6.7 M8.95 18.6 L11.4 18.3 14.75 18.55 Q17.65 19.1 19.9 20.65 21.3 21.6 22.2 22.8 23.25 24.05 23.75 25.45 L24.55 25.8 25.4 26.3 Q27.05 27.45 28.2 29.35 L29.2 31.55 29.7 34 Q29.8 35.5 29.4 36.7 29 37.9 28.15 38.6 27.15 39.45 25.8 39.4 24.4 39.35 22.9 38.3 22.1 37.8 21.4 37.05 L20.25 35.45 Q18.8 36.45 17.05 37.1 15.25 37.75 13.25 37.85 L8.95 37.5 8.65 37.45 Q6.3 36.85 4.4 35.5 1.25 33.35 0.35 30.3 -0.5 27.45 0.8 24.6 1.7 22.6 3.6 21.1 5.4 19.65 7.8 18.9 L8.95 18.6 M5.3 21.65 Q3.8 23.05 3.2 24.85 2.35 27.3 3.2 29.7 4.1 32.25 6.75 34.05 7.75 34.75 8.95 35.25 L10.25 35.7 14.05 36.15 17.3 35.6 Q18.8 35.15 20.05 34.35 L21.1 35.7 22.35 36.8 Q23.65 37.7 24.95 37.8 26.15 37.85 27.05 37.2 27.85 36.65 28.25 35.6 28.7 34.6 28.65 33.3 28.65 32.25 28.3 31.15 L27.45 29.15 Q26.4 27.35 24.9 26.3 L24.15 25.85 23.4 25.55 Q22.9 24.2 22 23 21.1 21.9 19.85 21 17.7 19.55 15.05 19.1 L12 18.95 8.95 19.55 8.8 19.6 Q6.75 20.35 5.3 21.65\"/>\n  </g>\n</svg>";
         // // console.log(svg.toString());
         // msg.send('add-symbol', svg);
-
         /*
             fabric.loadSVGFromString(svg.toString(), function (objects, options) {
                  var obj = fabric.util.groupSVGElements(objects, options);
@@ -440,6 +438,8 @@ var CanvasController = (function () {
 
         canvas.on('object:moving', this.onObjectMove);
         canvas.on('object:selected', this.onObjectSelect);
+        canvas.on('selection:cleared', this.onObjectSelectCleared);
+        canvas.on('selection:created', this.onObjectSelectCreated);
         msg.on('add-symbol', this.addSymbol, this);
         msg.on('add-image', this.addImage, this);
         msg.on('add-text', this.addText, this);
@@ -546,9 +546,15 @@ var CanvasController = (function () {
         obj.on('moving', this.onObjectMove);
     };
     CanvasController.prototype.onObjectSelect = function (e) {
-        // console.log("select: ", e, this);
+        console.log("select: ", e, this);
         CanvasController.instance.selected = e.target;
         canvas["object"] = e.target;
+    };
+    CanvasController.prototype.onObjectSelectCreated = function (e) {
+        console.log("select: ", e, this);
+    };
+    CanvasController.prototype.onObjectSelectCleared = function (e) {
+        console.log("select: ", e, this);
     };
     CanvasController.prototype.onObjectMove = function (e) {
         // console.log(e.target.get('left'), e.target.get('top'));
@@ -587,7 +593,9 @@ var CanvasController = (function () {
 
         var bound = this.getRectBounds();
         var copy = document.createElement('canvas').getContext('2d');
-        var trimHeight = bound.bottom - bound.top, trimWidth = bound.right - bound.left, trimmed = canvas.getContext().getImageData(bound.left, bound.top, trimWidth, trimHeight);
+        var trimHeight = bound.bottom - bound.top,
+            trimWidth = bound.right - bound.left,
+            trimmed = canvas.getContext().getImageData(bound.left, bound.top, trimWidth, trimHeight);
         copy.canvas.width = trimWidth;
         copy.canvas.height = trimHeight;
         copy.putImageData(trimmed, 0, 0);
@@ -717,7 +725,7 @@ var TransformController = (function () {
         _this.$scope.y = e.target.get('top');
         _this.$scope.width = e.target.get('width') * e.target.scaleX;
         _this.$scope.height = e.target.get('height') * e.target.scaleY;
-        //_this.$scope.$apply();
+        _this.$scope.$apply();
     };
     TransformController.prototype.onObjectMove = function (e) {
         var _this = TransformController.instance;
@@ -914,18 +922,6 @@ var ModifyController = (function () {
         this.$cmd.run('move', 2, 0);
     };
     ModifyController.prototype.zoomIn = function () {
-
-        /*  // Just testing scaling...
-            setInterval(function() {
-                for(var key in objs) {
-                    con += 0.1;
-                    // console.log(objs[key]);
-                    objs[key].setScaleX(con);
-                    objs[key].setScaleY(con);
-                }
-            }, 3000);
-        */
-
         // Single selected object
         if(canvas.getActiveObject() != null) {
             this.$cmd.run('scale', this.factor * canvas.getActiveObject().getScaleX(), this.factor * canvas.getActiveObject().getScaleX());
@@ -1162,19 +1158,12 @@ var ObjectsController = (function () {
         // canvas.on('selection:cleared', this.onSelectionCleared);
         $scope.items = $canvas.children;
     }
-    ObjectsController.prototype.onObjectSelected = function (obj) {
-        //var _this = ObjectsController.instance;
-        this.selectObject(obj, true);
-        this.update();
-        // scopeApply(_this.$scope);
-    };
     ObjectsController.prototype.onObjectMoveUp = function() {
         for(var i = 0; i < $canvas.children.length; i++) {
           if($canvas.children[i].selected) {
             if(i > 0) {
               $canvas.children.move(i, i - 1);
-              // Update z-index.
-              canvas.getActiveObject().moveTo(i + 1);
+              canvas.getActiveObject().moveTo(i + 1); // Update z-index.
               break;
             }
           }
@@ -1185,28 +1174,23 @@ var ObjectsController = (function () {
           if($canvas.children[i].selected) {
              if(i < $canvas.children.length - 1) {
               $canvas.children.move(i, i + 1);
-              // Update z-index.
-              canvas.getActiveObject().moveTo(i - 1);
+              canvas.getActiveObject().moveTo(i - 1); // Update z-index.
               break;
             }
           }
         }
     };
-    ObjectsController.prototype.onSelectionCleared = function (e) {
-        // console.log(e);
-        var _this = ObjectsController.instance;
-        _this.selectObject(e.target, false);
-        //_this.$scope.$apply();
-        scopeApply(_this.$scope);
+    ObjectsController.prototype.selectItem = function (index) {
+        $canvas.select($canvas.children[index]);
     };
     ObjectsController.prototype.onItemClick = function (index) {
-        $canvas.select($canvas.children[index]);
+        this.selectItem(index);
     };
     ObjectsController.prototype.onItemDoubleClick = function (index) {
         msg.send('open-popup', 'rename');
     };
     ObjectsController.prototype.onObjectAdd = function (obj) {
-        //   var _this = ObjectsController.instance;
+        //  var _this = ObjectsController.instance;
         var disObj = new DisplayObject();
         disObj.raw = obj;
         this.items.unshift(disObj);
@@ -1218,21 +1202,41 @@ var ObjectsController = (function () {
         this.clearSelection();
         this.selectObject(obj, true);
     };
-    ObjectsController.prototype.selectObject = function (obj, value) {
-        for (var i = 0; i < this.items.length; i++) {
-            if (this.items[i].raw == obj)
-                this.items[i].selected = value;
-        }
-    };
     ObjectsController.prototype.onMoveUpClick = function() {
         this.onObjectMoveUp(this);
     };
     ObjectsController.prototype.onMoveDownClick = function() {
         this.onObjectMoveDown(this);
     };
+    ObjectsController.prototype.onObjectSelected = function (obj) {
+        //var _this = ObjectsController.instance;
+        this.selectObject(obj, true);
+        this.update();
+        // scopeApply(_this.$scope);
+    };
+    ObjectsController.prototype.onSelectionCleared = function (e) {
+        // console.log(e);
+        var _this = ObjectsController.instance;
+        _this.selectObject(e.target, false);
+        //_this.$scope.$apply();
+        scopeApply(_this.$scope);
+    };
+    ObjectsController.prototype.selectObject = function (obj, value) {
+        this.clearSelection();
+        var _index = -1;
+        for (var i = 0; i < $canvas.children.length; i++) {
+            if ($canvas.children[i].raw == obj.raw) {
+                $canvas.children[i].selected = value;
+                _index = i;
+            }
+        }
+    };
     ObjectsController.prototype.clearSelection = function () {
         for (var i = 0; i < this.items.length; i++) {
             this.items[i].selected = false;
+        }
+        for (var i = 0; i < $canvas.children.length; i++) {
+            $canvas.children[i].selected = false;
         }
     };
     ObjectsController.prototype.update = function () {
@@ -1380,6 +1384,7 @@ var TextController = (function () {
         $scope.$ = this;
         $scope.visible = false;
         msg.on('object-selected', this.onObjectSelected, this);
+        msg.on('object-deselected', this.onObjectDeSelected, this);
         $(".text-picker")["mlColorPicker"]({
             'onChange': function (val) {
                 _this.onColorChange(val);
@@ -1393,7 +1398,10 @@ var TextController = (function () {
     };
     TextController.prototype.onObjectSelected = function (obj) {
         // console.log('obj.type: ' + obj.type);
-        this.$scope.visible = (obj.type == "text");
+        this.$scope.visible = (obj.type == "text" || obj.type == "text".toUpperCase());
+    };
+    TextController.prototype.onObjectDeSelected = function (obj) {
+        this.$scope.visible = false;
     };
     TextController.prototype.onFontClick = function () {
         msg.send('open-popup', 'fontselection');
@@ -1683,14 +1691,12 @@ var CanvasService = (function () {
         else {
             dobj.raw = object;
         }
-        console.log(dobj);
         return dobj;
     };
     CanvasService.prototype.add = function (dobj) {
         dobj.selected = true;
         this.root.add(dobj.raw).renderAll();
         this.children.unshift(dobj);
-        // console.log(this.children);
         this.select(dobj);
         if (dobj.type == DOType.SYMBOL) {
             for (var i = 0; i < dobj.raw.getObjects().length; i++) {
@@ -1698,7 +1704,7 @@ var CanvasService = (function () {
                 // console.log('path found', path.getFill());
             }
         }
-        //msg.send('object-added', obj);
+        // msg.send('object-added', obj);
     };
     CanvasService.prototype.select = function (dobj) {
         this.unselectAll();
