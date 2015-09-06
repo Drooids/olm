@@ -1388,6 +1388,7 @@ var TextController = (function () {
         $scope.visible = false;
         msg.on('object-selected', this.onObjectSelected, this);
         msg.on('object-deselected', this.onObjectDeSelected, this);
+        msg.on('deselect-all', this.onObjectDeSelected, this);
         $(".text-picker")["mlColorPicker"]({
             'onChange': function (val) {
                 _this.onColorChange(val);
