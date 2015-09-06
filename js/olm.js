@@ -554,6 +554,7 @@ var CanvasController = (function () {
         console.log("select: ", e, this);
     };
     CanvasController.prototype.onObjectSelectCleared = function (e) {
+        msg.send('deselect-all');
         console.log("select: ", e, this);
     };
     CanvasController.prototype.onObjectMove = function (e) {
@@ -697,6 +698,7 @@ var TransformController = (function () {
         canvas.on('object:moving', this.onObjectMove);
         canvas.on('object:scaling', this.onObjectScale);
         canvas.on('object:selected', this.onObjectSelect);
+        canvas.on('selection:cleared', this.selectionCleared);
         $scope.$watch('x', this.onChangePosition);
         $scope.$watch('y', this.onChangePosition);
         $scope.$watch('width', this.onChangeScale);
@@ -725,6 +727,10 @@ var TransformController = (function () {
         _this.$scope.y = e.target.get('top');
         _this.$scope.width = e.target.get('width') * e.target.scaleX;
         _this.$scope.height = e.target.get('height') * e.target.scaleY;
+        _this.$scope.$apply();
+    };
+    TransformController.prototype.selectionCleared = function (e) {
+        var _this = TransformController.instance;
         _this.$scope.$apply();
     };
     TransformController.prototype.onObjectMove = function (e) {
@@ -1153,6 +1159,7 @@ var ObjectsController = (function () {
         msg.on('object-move-down', this.onObjectMoveDown, this);
         msg.on('object-single-delete', this.onDeleteClick, this);
         msg.on('object-multiple-delete', this.onDeleteAllClick, this);
+        msg.on('deselect-all', this.clearSelection, this);
 
         // canvas.on('object:selected', this.onObjectSelected);
         // canvas.on('selection:cleared', this.onSelectionCleared);
@@ -1194,10 +1201,6 @@ var ObjectsController = (function () {
         var disObj = new DisplayObject();
         disObj.raw = obj;
         this.items.unshift(disObj);
-        // $canvas.children.unshift(disObj);
-        // alert("onObjectAdd");
-        // disObj.type = obj.type.toUpperCase();
-        // if (disObj.type == "PATH-GROUP") disObj.type = "SYMBOL";
         disObj.name = "OBJECT " + this.items.length;
         this.clearSelection();
         this.selectObject(obj, true);
