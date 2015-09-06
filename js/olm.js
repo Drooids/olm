@@ -1457,6 +1457,7 @@ var SymbolColorController = (function () {
 
         msg.on('object-selected', this.onObjectSelected, this);
         msg.on('paths-selected', this.onObjectSelected, this);
+        msg.on('deselect-all', this.onObjectDeSelected, this);
         $(".color-picker")["mlColorPicker"]({
             'onChange': this.onColorChange
         });
@@ -1469,6 +1470,9 @@ var SymbolColorController = (function () {
         this.$scope.visible = this.enabled();
         //// console.log('obj.type: ' + obj.type);
         //this.$scope.visible = (obj.type == "text");
+    };
+    SymbolColorController.prototype.onObjectDeSelected = function() {
+        this.$scope.visible = false;
     };
     SymbolColorController.prototype.onFontClick = function () {
         msg.send('open-popup', 'fontselection');
