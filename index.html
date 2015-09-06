@@ -2,7 +2,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Online Logo Maker</title>
-    <link rel="stylesheet" href="app.css?v=0.102" type="text/css" />
+    <link rel="stylesheet" href="app.css?v=0.104" type="text/css" />
     <link rel="stylesheet" href="css/mlColorPicker.css" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans+Narrow' rel='stylesheet' type='text/css'>
     <script src="js/fabric.js"></script>
@@ -16,7 +16,7 @@
     <script src="js/blob.js"></script>
     <script src="js/canvas-toBlob.js"></script>
     <script src="js/fileSaver.js"></script>
-    <script src="js/olm.js?v=0.125"></script>
+    <script src="js/olm.js?v=0.126"></script>
     <script src="js/tools.js?v=3"></script>
 </head>
 <body>
@@ -440,9 +440,16 @@
         <div ng-controller="FontSelectionController" ng-show="visible" class="panel popup fade popup-fontselection ">
             <div class="header">FONT SELECTION</div>
             <div class="content">
-                <a ng-click="$.onNormalClick()" href="#">Normal</a>
-                <a ng-click="$.onEastClick()" href="#">East</a>
-                <div ng-repeat="item in $.items track by $index" ng-click="$.onItemClick($index)" ng-class="{false: 'font-active'}[item.active]"><img src="assets/fonts/{{ item.name }}.png"/></div>
+                <div class="cats">
+                    <a id="id-fontselection-normal" ng-click="$.onNormalClick()" href="#">Normal</a>
+                    <strong class="separator"> | </strong>
+                    <a id="id-fontselection-east" ng-click="$.onEastClick()" href="#">East</a>
+                </div>
+                <div class="fonts">
+                    <div ng-repeat="item in $.items track by $index" ng-click="$.onItemClick($index, $event)" ng-class="{false: 'font-active'}[item.active]">
+                        <img src="assets/fonts/{{ item.name }}.png"/>
+                    </div>
+                </div>
             </div>
             <div class="popup-footer">
                 <a ng-click="$.onCancelClick()" class="btn btn-grey" href="#">CANCEL</a>

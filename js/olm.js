@@ -1354,17 +1354,30 @@ var FontSelectionController = (function (_super) {
     };
     FontSelectionController.prototype.onNormalClick = function () {
         this.items = [];
+        this.clearFontElemts();
+        document.getElementById('id-fontselection-normal').style.color = "#0e0efc";
         for (var i = 0; i < this.normalFonts.length; i++) {
             this.items.push({ name: this.normalFonts[i] });
         }
     };
     FontSelectionController.prototype.onEastClick = function () {
         this.items = [];
+        this.clearFontElemts();
+        document.getElementById('id-fontselection-east').style.color = "#0e0efc";
         for (var i = 0; i < this.eastFonts.length; i++) {
             this.items.push({ name: this.eastFonts[i] });
         }
     };
-    FontSelectionController.prototype.onItemClick = function (index) {
+    FontSelectionController.prototype.clearFontElemts = function () {
+        document.getElementById('id-fontselection-normal').style.color = "#000";
+        document.getElementById('id-fontselection-east').style.color = "#000";
+    };
+    FontSelectionController.prototype.onItemClick = function (index, $event) {
+        var fonts = $(".fonts").children();
+        for(var i = 0; i < fonts.length; i++) {
+            fonts[i].style.backgroundColor = "";
+        }
+        $event.currentTarget.style.backgroundColor = "#3c79bc";
         $cmd.run('text-font', this.items[index].name);
         setTimeout(function () {
             canvas.renderAll();

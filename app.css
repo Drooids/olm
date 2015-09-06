@@ -373,6 +373,37 @@ input {
     padding: 5px 0px;
 }
 
+.popup-fontselection {
+    width:500px !important;
+}
+.popup-fontselection .content {
+    height:88% !important; text-align:center !important;
+}
+.popup-fontselection .content a {
+    text-decoration:none;
+    padding: 5px;
+    color: #000;
+}
+.popup-fontselection .content .fonts div {
+    padding: 2px;
+}
+.popup-fontselection .content .fonts div:hover {
+    background-color: #3c79bc;
+}
+.popup-fontselection .content a:hover {
+    background-color: #a2cde8;
+    border-radius: 4px 4px 0px 0px;
+}
+.popup-fontselection .content .separator {
+    margin:10px;
+}
+.popup-fontselection .content .cats {
+    padding: 8px 8px 6px 8px; background-color:#d0d0d0; border-radius:4px 4px 0px 0px; margin:1px 1px 5px 1px; text-align:left !important;
+}
+.popup-fontselection .popup-footer {
+    width:66% !important;
+}
+
 .icon {
     top:5px;
     left:10px;
