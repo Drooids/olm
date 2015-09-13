@@ -8,6 +8,10 @@ Array.prototype.move = function (old_index, new_index) {
     this.splice(new_index, 0, this.splice(old_index, 1)[0]);
     return this; // for testing purposes
 }
+Number.prototype.round = function(p) {
+  p = p || 10;
+  return parseFloat( this.toFixed(p) );
+};
 $(document).ready(function() {
     window.addEventListener("load", function () {
         var couponcodes = document.getElementsByClassName("ctooltip");

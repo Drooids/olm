@@ -694,6 +694,7 @@ var TransformController = (function () {
     function TransformController($scope, $cmd) {
         this.$scope = $scope;
         this.$cmd = $cmd;
+        this.precision = 2;
         TransformController.instance = this;
         canvas.on('object:moving', this.onObjectMove);
         canvas.on('object:scaling', this.onObjectScale);
@@ -708,8 +709,8 @@ var TransformController = (function () {
         $scope.width = 0;
         $scope.height = 0;
         msg.on('update-scale', function () {
-            this.$scope.width = parseFloat(this.selected.get('width') * this.selected.scaleX).toFixed(2);
-            this.$scope.height = parseFloat(this.selected.get('height') * this.selected.scaleY).toFixed(2);
+            this.$scope.width = (this.selected.get('width') * this.selected.scaleX).round(this.precision);
+            this.$scope.height = (this.selected.get('height') * this.selected.scaleY).round(this.precision);
             //this.$scope.$apply();
         }, this);
     }
@@ -723,10 +724,10 @@ var TransformController = (function () {
         // msg.send('object-selected', e.target);
         var _this = TransformController.instance;
         _this.selected = e.target;
-        _this.$scope.x = e.target.get('left');
-        _this.$scope.y = e.target.get('top');
-        _this.$scope.width = e.target.get('width') * e.target.scaleX;
-        _this.$scope.height = e.target.get('height') * e.target.scaleY;
+        _this.$scope.x = (e.target.get('left')).round(_this.precision);
+        _this.$scope.y = (e.target.get('top')).round(_this.precision);
+        _this.$scope.width = (e.target.get('width') * e.target.scaleX).round(_this.precision);
+        _this.$scope.height = (e.target.get('height') * e.target.scaleY).round(_this.precision);
         _this.$scope.$apply();
     };
     TransformController.prototype.selectionCleared = function (e) {
@@ -735,14 +736,14 @@ var TransformController = (function () {
     };
     TransformController.prototype.onObjectMove = function (e) {
         var _this = TransformController.instance;
-        _this.$scope.x = e.target.get('left');
-        _this.$scope.y = e.target.get('top');
+        _this.$scope.x = (e.target.get('left')).round(_this.precision);
+        _this.$scope.y = (e.target.get('top')).round(_this.precision);
         _this.$scope.$apply();
     };
     TransformController.prototype.onObjectScale = function (e) {
         var _this = TransformController.instance;
-        _this.$scope.width = e.target.get('width') * e.target.scaleX;
-        _this.$scope.height = e.target.get('height') * e.target.scaleY;
+        _this.$scope.width = (e.target.get('width') * e.target.scaleX).round(_this.precision);
+        _this.$scope.height = (e.target.get('height') * e.target.scaleY).round(_this.precision);
         _this.$scope.$apply();
         // console.log("scale", e.target.get('width'));
     };
