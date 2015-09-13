@@ -832,6 +832,7 @@ var AddTextController = (function () {
         $scope.visible = false;
         $scope.$ = this;
         msg.on('open-addtext', this.open, this);
+        msg.on('text-font', this.fontSelect, this);
     }
     AddTextController.prototype.open = function () {
         this.$scope.visible = true;
@@ -841,6 +842,7 @@ var AddTextController = (function () {
         this.$scope.visible = false;
         msg.send('close-popups');
     };
+    AddTextController.prototype.fontSelect = function (font) {};
     AddTextController.prototype.onOkClick = function () {
         // console.log(this.$scope.text);
         if (this.$scope.text) {
@@ -1315,14 +1317,11 @@ var FontSelectionController = (function (_super) {
     __extends(FontSelectionController, _super);
     function FontSelectionController($scope) {
         _super.call(this, $scope);
-
         this._fonts = {};
         this.items = [];
         this.normalFonts = [];
         this.eastFonts = [];
-
         var fonts = [];
-
         $.get("assets/fonts/fonts.json", function() {})
         .done(function(a) {})
         .fail(function(a) {})
@@ -1334,7 +1333,6 @@ var FontSelectionController = (function (_super) {
                fonts.push({ eastFonts: a.eastFonts });
             }
         });
-
         // NOTE: not a good solution, just testing for now...
         setTimeout(function(self) {
             this.normalFonts = fonts[0].normalFonts;
@@ -1343,7 +1341,6 @@ var FontSelectionController = (function (_super) {
             this.generateFontFaces();
             this.onNormalClick();
         }.bind(this), 2000);
-
     }
     FontSelectionController.prototype.generateFontFaces = function () {
         var fontFaces = document.createElement('style');
@@ -1396,6 +1393,7 @@ var FontSelectionController = (function (_super) {
         }
         $event.currentTarget.style.backgroundColor = "#3c79bc";
         $cmd.run('text-font', this.items[index].name);
+        msg.send('text-font', this.items[index].name);
         setTimeout(function () {
             canvas.renderAll();
         }, 1000);
@@ -1416,6 +1414,7 @@ var TextController = (function () {
         ObjectsController.instance = this;
         $scope.$ = this;
         $scope.visible = false;
+        $scope.font_name = "";
         msg.on('object-selected', this.onObjectSelected, this);
         msg.on('object-deselected', this.onObjectDeSelected, this);
         msg.on('deselect-all', this.onObjectDeSelected, this);
@@ -1424,11 +1423,15 @@ var TextController = (function () {
                 _this.onColorChange(val);
             }
         });
+        msg.on('text-font', this.fontSelect, this);
     }
     TextController.prototype.onColorChange = function (val) {
         $(".text-picker").css('background-color', "#" + val);
         $cmd.run('text-color', this.textColor, val);
         this.textColor = val;
+    };
+    TextController.prototype.fontSelect = function (font_name) {
+        this.$scope.font_name = font_name;
     };
     TextController.prototype.onObjectSelected = function (obj) {
         // console.log('obj.type: ' + obj.type);
