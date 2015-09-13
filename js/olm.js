@@ -1349,7 +1349,7 @@ var FontSelectionController = (function (_super) {
             fontFaces.appendChild(document.createTextNode("\
                 @font-face {\
                     font-family: '" + name + "';\
-                    src: url('assets/fonts/" + name.toLowerCase() + ".ttf') format(\"truetype\");\
+                    src: url('assets/fonts/" + name + ".ttf') format(\"truetype\");\
                 }\
             "));
         }
@@ -1359,7 +1359,7 @@ var FontSelectionController = (function (_super) {
             fontFaces.appendChild(document.createTextNode("\
                 @font-face {\
                     font-family: '" + name + "';\
-                    src: url('assets/fonts/" + name.toLowerCase() + ".ttf') format(\"truetype\");\
+                    src: url('assets/fonts/" + name + ".ttf') format(\"truetype\");\
                 }\
             "));
         }

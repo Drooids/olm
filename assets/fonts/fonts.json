@@ -1,8 +1,12 @@
 {
     "normalFonts": [
-        "Amerika_Sans",
-        "Arial",
-        "Avondale_Inline"
+        "amerika_sans",
+        "arial",
+        "avondale_inline",
+	"OpenSans-Bold",
+	"OpenSans-ExtraBold",
+	"Walkway_Black",
+	"Walkway_SemiBold"
     ],
     "eastFonts": [
         "Rix_Fantastic",
