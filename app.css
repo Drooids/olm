@@ -879,18 +879,17 @@ input {
 
 .text-picker {
     background-image: url(assets/images/DropdownColorPickerTextForm.png);
-    width: 159px;
-    height: 29px;
-    background-color: brown;
+    width: 149px;
+    background-size: 150px 23px;
+    height: 23px;
     border-radius: 5px;
-    margin-left: 50px;
 }
 
 .font-picker {
     background-image: url(assets/images/dark_button_up.png);
-    width: 162px;
-    height: 29px;
-    margin-left: 50px;
+    width: 140px;
+    background-size: 140px 25px;
+    height: 24px;
 }
 .font-picker span {
     color: #fff;
@@ -904,8 +903,7 @@ input {
 }
 
 .textformat .container {
-    padding: 10px;
-    padding-top: 20px;
+    padding: 5px 10px;
 }
 
 .textformat .container span {
