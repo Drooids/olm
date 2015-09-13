@@ -625,7 +625,7 @@ input {
 .resources .container {
     padding-bottom:5px !important;
 }
-.symbolcolor .header {
+.symbolcolor .header, .textformat .header {
     padding: 4px 5px 5px 10px;
     background-color: #afafaf;
     margin-top: -3;
