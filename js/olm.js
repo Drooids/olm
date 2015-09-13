@@ -508,10 +508,8 @@ var CanvasController = (function () {
     };
     CanvasController.prototype.textColor = function (lastVal, val) {
         var textObj = this.selected;
-        // console.log('textColor: ' + textObj);
         if (!textObj)
             return;
-        // console.log('textColor');
         textObj.setColor('#' + val);
         canvas.renderAll();
     };
@@ -1407,6 +1405,7 @@ var FontSelectionController = (function (_super) {
     };
     return FontSelectionController;
 })(PopupController);
+$ocolors = [];
 var TextController = (function () {
     function TextController($scope) {
         var _this = this;
@@ -1419,18 +1418,30 @@ var TextController = (function () {
         msg.on('object-selected', this.onObjectSelected, this);
         msg.on('object-deselected', this.onObjectDeSelected, this);
         msg.on('deselect-all', this.onObjectDeSelected, this);
+        msg.on('text-font', this.fontSelect, this);
+        msg.on('add-text',  this.onTextAdded, this);
         $(".text-picker")["mlColorPicker"]({
             'onChange': function (val) {
-                _this.onColorChange(val);
+                _this.onColorSelect(val);
             }
         });
-        msg.on('text-font', this.fontSelect, this);
+        $("#mlSelectedColorText").keyup(function() {
+            _this.onColorChange(this.value)
+        });
+        $('#mlColors').mouseleave(function() {
+            for(var i = 0; i < $ocolors.length; i++) {
+                if($ocolors[i].o.selected) {
+                    _this.onColorChange($ocolors[i].color);
+                }
+            }
+        });
     }
     TextController.prototype.onColorChange = function (val) {
         $(".text-picker").css('background-color', "#" + val);
         $cmd.run('text-color', this.textColor, val);
         this.textColor = val;
     };
+
     TextController.prototype.fontSelect = function (font_name) {
         this.$scope.font_name = font_name;
     };
@@ -1443,11 +1454,34 @@ var TextController = (function () {
     TextController.prototype.onObjectDeSelected = function (obj) {
         this.$scope.visible = false;
     };
+    TextController.prototype.onTextAdded = function(obj) {
+        setTimeout(function() {
+            for(var key in $canvas.children) {
+                if($canvas.children[key].selected || $canvas.children.length == 1) {
+                    var o = { o: $canvas.children[key], os: JSON.stringify($canvas.children[key]), color: rgb2hex($canvas.children[key].raw.fill) };
+                    $ocolors.push(o);
+                }
+            }
+        }, 1000);
+    }
     TextController.prototype.onFontClick = function () {
         msg.send('open-popup', 'fontselection');
     };
-    TextController.prototype.onColorClick = function () {
-    };
+    TextController.prototype.onColorSelect = function(val) {
+        this.onColorChange(val);
+        for(var i = 0; i < $ocolors.length; i++) {
+            if($ocolors[i].o.selected) {
+                for(var j = 0; j < $canvas.children.length; j++) {
+                    if($ocolors[i].o.id == $canvas.children[j].id) {
+                        var o = { o: $canvas.children[j], os: JSON.stringify($canvas.children[j]), color: $canvas.children[j].raw.fill.split('#')[1] };
+                        $ocolors[i] = o;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    TextController.prototype.onColorClick = function (val) {};
     return TextController;
 })();
 var RenameController = (function (_super) {
