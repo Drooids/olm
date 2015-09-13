@@ -552,6 +552,9 @@ var CanvasController = (function () {
     CanvasController.prototype.onUndoClick = function () {
         this.$cmd.undo();
     };
+    CanvasController.prototype.onBgColorClick = function () {
+        alert("Comming soon!");
+    };
     CanvasController.prototype.addGrid = function() {
         var grid = 5;
         for (var i = 0; i < (600 / grid); i++) {

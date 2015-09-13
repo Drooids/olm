@@ -1315,18 +1315,35 @@ var FontSelectionController = (function (_super) {
     __extends(FontSelectionController, _super);
     function FontSelectionController($scope) {
         _super.call(this, $scope);
-        this.normalFonts = ['Amerika_Sans', 'Arial', 'Avondale_Inline'];
-        this.eastFonts = ['Rix_Fantastic', 'Whoa'];
+
+        this._fonts = {};
         this.items = [];
-        this.init('fontselection');
-        this.generateFontFaces();
-        this.onNormalClick();
-        for (var i = 0; i < this.normalFonts.length; i++) {
-            var name = this.normalFonts[i];
-            var filename = name.toLowerCase();
-        }
-        for (var i = 0; i < this.eastFonts.length; i++) {
-        }
+        this.normalFonts = [];
+        this.eastFonts = [];
+
+        var fonts = [];
+
+        $.get("assets/fonts/fonts.json", function() {})
+        .done(function(a) {})
+        .fail(function(a) {})
+        .always(function(a) {
+            if(a.hasOwnProperty('normalFonts')) {
+               fonts.push({ normalFonts: a.normalFonts });
+            }
+            if(a.hasOwnProperty('eastFonts')) {
+               fonts.push({ eastFonts: a.eastFonts });
+            }
+        });
+
+        // NOTE: not a good solution, just testing for now...
+        setTimeout(function(self) {
+            this.normalFonts = fonts[0].normalFonts;
+            this.eastFonts = fonts[1].eastFonts;
+            this.init('fontselection');
+            this.generateFontFaces();
+            this.onNormalClick();
+        }.bind(this), 2000);
+
     }
     FontSelectionController.prototype.generateFontFaces = function () {
         var fontFaces = document.createElement('style');

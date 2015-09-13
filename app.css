@@ -384,8 +384,17 @@ input {
     padding: 5px;
     color: #000;
 }
+.popup-fontselection .content .fonts {
+    height: 400px;
+    overflow-y: scroll;
+}
 .popup-fontselection .content .fonts div {
     padding: 2px;
+}
+.popup-fontselection .content .fonts div h1 {
+    padding: 2px;
+    color: yellow;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 .popup-fontselection .content .fonts div:hover {
     background-color: #3c79bc;
