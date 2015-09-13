@@ -892,6 +892,10 @@ input {
     height: 29px;
     margin-left: 50px;
 }
+.font-picker span {
+    color: #fff;
+    padding:7px;
+}
 
 .textformat {
     width: 230px;
