@@ -1436,6 +1436,8 @@ var TextController = (function () {
     TextController.prototype.onObjectSelected = function (obj) {
         // console.log('obj.type: ' + obj.type);
         this.$scope.visible = (obj.type == "text" || obj.type == "text".toUpperCase());
+        this.$scope.font_name = obj.raw.fontFamily;
+        $('.text-picker')[0].style.backgroundColor = obj.raw.fill;
     };
     TextController.prototype.onObjectDeSelected = function (obj) {
         this.$scope.visible = false;
