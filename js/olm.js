@@ -52,6 +52,7 @@ var Base64Binary = {
 };
 var $cmd;
 var $msg;
+window.colorpicker = { controller: "", visible: false, containers: ['.text-picker', '.shadow-picker'] };
 function scopeApply(scope) {
     try {
         scope.$apply();
@@ -778,8 +779,27 @@ var ShadowController = (function () {
         $scope.$watch("outset", function () { return _this.onChange(); });
         $(".shadow-picker")["mlColorPicker"]({
             'onChange': function (val) {
-                _this.onColorChange(val);
+                _this.onColorSelect(val);
             }
+        });
+
+        $('.shadow-picker').click(function() {
+            $("#mlSelectedColorText").off();
+            $('#mlColors').off();
+            window.colorpicker.controller = "ShadowController";
+            window.colorpicker.visible = true;
+            var keyupC = function() {
+                _this.onColorChange(this.value)
+            };
+            var mouseleaveC = function() {
+                for(var i = 0; i < $ocolors.length; i++) {
+                    if($ocolors[i].o.selected) {
+                        _this.onColorChange($ocolors[i].shadow.color);
+                    }
+                }
+            };
+            $("#mlSelectedColorText").on('keyup', keyupC);
+            $('#mlColors').on('mouseleave', mouseleaveC);
         });
         // $cmd.map('shadow-color', this.changeShadowColor, this, UndoType.SWITCH);
     }
@@ -797,6 +817,23 @@ var ShadowController = (function () {
         // this.$cmd.run('shadow-color', $canvas.selection[0], $canvas.selection[0].shadow.color , '#'+val);
         this.shadowColor = val;
     };
+    ShadowController.prototype.onColorSelect = function(val) {
+        this.onColorChange(val);
+        for(var i = 0; i < $ocolors.length; i++) {
+            if($ocolors[i].o.selected) {
+                for(var j = 0; j < $canvas.children.length; j++) {
+                    if($ocolors[i].o.id == $canvas.children[j].id) {
+                        var o = { o: $canvas.children[j],
+                            os: JSON.stringify($canvas.children[j]),
+                            color: $canvas.children[j].raw.fill.split('#')[1],
+                            shadow: { color: $canvas.children[j].shadow.color.split('#')[1] } };
+                        $ocolors[i] = o;
+                        break;
+                    }
+                }
+            }
+        }
+    }
     ShadowController.prototype.onObjectSelected = function (dobj) {
         this.$scope.enabled = dobj.shadow.enabled;
         if(this.$scope.enabled) {
@@ -1459,15 +1496,21 @@ var TextController = (function () {
                 _this.onColorSelect(val);
             }
         });
-        $("#mlSelectedColorText").keyup(function() {
-            _this.onColorChange(this.value)
-        });
-        $('#mlColors').mouseleave(function() {
-            for(var i = 0; i < $ocolors.length; i++) {
-                if($ocolors[i].o.selected) {
-                    _this.onColorChange($ocolors[i].color);
+        $('.text-picker').click(function() {
+            $("#mlSelectedColorText").off();
+            $('#mlColors').off();
+            window.colorpicker.controller = "TextController";
+            window.colorpicker.visible = true;
+            $("#mlSelectedColorText").keyup(function() {
+                _this.onColorChange(this.value)
+            });
+            $('#mlColors').mouseleave(function() {
+                for(var i = 0; i < $ocolors.length; i++) {
+                    if($ocolors[i].o.selected) {
+                        _this.onColorChange($ocolors[i].color);
+                    }
                 }
-            }
+            });
         });
     }
     TextController.prototype.onColorChange = function (val) {
@@ -1492,7 +1535,10 @@ var TextController = (function () {
         setTimeout(function() {
             for(var key in $canvas.children) {
                 if($canvas.children[key].selected || $canvas.children.length == 1) {
-                    var o = { o: $canvas.children[key], os: JSON.stringify($canvas.children[key]), color: rgb2hex($canvas.children[key].raw.fill) };
+                    var o = { o: $canvas.children[key],
+                        os: JSON.stringify($canvas.children[key]),
+                        color: rgb2hex($canvas.children[key].raw.fill),
+                        shadow: { color: $canvas.children[j].shadow.color.split('#')[1] } };
                     $ocolors.push(o);
                 }
             }
@@ -1507,7 +1553,10 @@ var TextController = (function () {
             if($ocolors[i].o.selected) {
                 for(var j = 0; j < $canvas.children.length; j++) {
                     if($ocolors[i].o.id == $canvas.children[j].id) {
-                        var o = { o: $canvas.children[j], os: JSON.stringify($canvas.children[j]), color: $canvas.children[j].raw.fill.split('#')[1] };
+                        var o = { o: $canvas.children[j],
+                            os: JSON.stringify($canvas.children[j]),
+                            color: $canvas.children[j].raw.fill.split('#')[1],
+                            shadow: { color: $canvas.children[j].shadow.color.split('#')[1] } };
                         $ocolors[i] = o;
                         break;
                     }
