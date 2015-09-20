@@ -550,7 +550,13 @@ var CanvasController = (function () {
         });
     };
     CanvasController.prototype.addText = function (value) {
-        var text = new fabric.Text(value, { left: 100, top: 100 });
+        var left = 20, top = 20;
+        if($canvas.children.length > 0) {
+            var last_object = $canvas.children[0].raw;
+            left += last_object.left;
+            top += last_object.top;
+        }
+        var text = new fabric.Text(value, { left: left, top: top });
         $cmd.run('add', $canvas.create(DOType.TEXT, text));
     };
     CanvasController.prototype.addListeners = function (obj) {
@@ -948,7 +954,6 @@ var AddTextController = (function () {
     };
     AddTextController.prototype.fontSelect = function (font) {};
     AddTextController.prototype.onOkClick = function () {
-        // console.log(this.$scope.text);
         if (this.$scope.text) {
             msg.send('add-text', this.$scope.text);
             this.$scope.visible = false;
