@@ -110,8 +110,8 @@
             <img ng-click="$.onRedoClick()" ng-class="{false: 'inactive'}[redoActive]" src="assets/images/redo_icon.png" title="Redo (CTRL-Y)"/> <span style="position:relative; top:-5;">REDO</span>
             <span style="float:right;">
                 <span style="position:relative; top:-5; font-size:12px;">BACKGROUND COLOR </span>
-                <a ng-click="$.onBgColorClick();" href="#">
-                    <img src="assets/images/DropdownColorPickerBg.png" ng-cick="$.onBgColorClick()" style="height:25px;">
+                <a ng-click="$.onBgColorClick();" href="#" class="background-picker">
+                    <img src="assets/images/DropdownColorPickerTextForm.png" ng-cick="$.onBgColorClick()" style="height:25px;">
                 </a>
                 <a style="float:right; vertical-align:middle; padding-top:5px;" class="btn btn-grey">
                     <span style="vertical-align:middle; color: #32cafd">GRID ON</span>
@@ -295,7 +295,7 @@
                 <br>
                 <div>Color:</div>
                 <a ng-click="$.onColorClick()" href="#">
-                        <div class="text-picker"></div>
+                    <div class="text-picker"></div>
                 </a>
             </div>
         </div>

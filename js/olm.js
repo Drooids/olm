@@ -406,6 +406,7 @@ var PopupsController = (function () {
 })();
 var CanvasController = (function () {
     function CanvasController($scope, $cmd) {
+        var _this = this;
         this.$scope = $scope;
         this.$cmd = $cmd;
         $scope.$ = this;
@@ -414,7 +415,23 @@ var CanvasController = (function () {
         $canvas = new CanvasService(canvas);
         canvas.setWidth(750);
         canvas.setHeight(600);
-
+        $(".background-picker")["mlColorPicker"]({
+            'onChange': function (val) {
+                _this.onColorSelect(val);
+            }
+        });
+        $('.background-picker').click(function() {
+            $("#mlSelectedColorText").off();
+            $('#mlColors').off();
+            window.colorpicker.controller = "CanvasController";
+            window.colorpicker.visible = true;
+            $("#mlSelectedColorText").keyup(function() {
+                _this.onColorChange(this.value)
+            });
+            $('#mlColors').mouseleave(function() {
+                _this.onColorChange($ocolorbgk);
+            });
+        });
         // var svg = "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\">\n  <defs/>\n  <g>\n    <path stroke=\"none\" fill=\"#6633ff\" d=\"M31.4 0.35 Q34.45 1.25 36.6 4.35 37.9 6.3 38.5 8.65 39.1 10.85 38.95 13.25 38.85 14.9 38.35 16.4 L38.15 17.05 Q37.55 18.8 36.55 20.2 L38.1 21.4 39.4 22.9 Q40.45 24.4 40.45 25.8 40.5 27.15 39.65 28.15 38.95 29 37.75 29.35 L35.1 29.65 32.65 29.2 Q31.5 28.8 30.45 28.2 28.5 27 27.35 25.4 L26.85 24.55 26.55 23.75 Q25.1 23.2 23.85 22.2 22.65 21.25 21.75 19.9 20.65 18.3 20.05 16.4 L19.6 14.75 Q19.3 13.1 19.4 11.4 19.45 9.5 20 7.8 20.7 5.4 22.15 3.55 23.65 1.7 25.7 0.8 28.5 -0.5 31.4 0.35 M35.1 6.7 Q33.3 4.1 30.75 3.2 28.35 2.35 25.95 3.2 24.15 3.8 22.75 5.3 21.4 6.75 20.65 8.8 20.15 10.3 20 11.95 19.9 13.5 20.15 15.05 L20.5 16.4 Q21 18.25 22.1 19.85 L24.1 22 Q25.25 22.9 26.6 23.35 L26.95 24.15 27.4 24.9 Q28.45 26.45 30.2 27.45 L32.2 28.3 34.4 28.65 36.7 28.25 Q37.7 27.85 38.3 27.05 38.95 26.15 38.85 24.95 38.8 23.65 37.9 22.35 L36.75 21.05 Q36.15 20.5 35.4 20.05 36.25 18.8 36.7 17.3 L36.95 16.4 37.2 14.05 Q37.3 12.1 36.75 10.25 36.25 8.35 35.1 6.7 M8.95 18.6 L11.4 18.3 14.75 18.55 Q17.65 19.1 19.9 20.65 21.3 21.6 22.2 22.8 23.25 24.05 23.75 25.45 L24.55 25.8 25.4 26.3 Q27.05 27.45 28.2 29.35 L29.2 31.55 29.7 34 Q29.8 35.5 29.4 36.7 29 37.9 28.15 38.6 27.15 39.45 25.8 39.4 24.4 39.35 22.9 38.3 22.1 37.8 21.4 37.05 L20.25 35.45 Q18.8 36.45 17.05 37.1 15.25 37.75 13.25 37.85 L8.95 37.5 8.65 37.45 Q6.3 36.85 4.4 35.5 1.25 33.35 0.35 30.3 -0.5 27.45 0.8 24.6 1.7 22.6 3.6 21.1 5.4 19.65 7.8 18.9 L8.95 18.6 M5.3 21.65 Q3.8 23.05 3.2 24.85 2.35 27.3 3.2 29.7 4.1 32.25 6.75 34.05 7.75 34.75 8.95 35.25 L10.25 35.7 14.05 36.15 17.3 35.6 Q18.8 35.15 20.05 34.35 L21.1 35.7 22.35 36.8 Q23.65 37.7 24.95 37.8 26.15 37.85 27.05 37.2 27.85 36.65 28.25 35.6 28.7 34.6 28.65 33.3 28.65 32.25 28.3 31.15 L27.45 29.15 Q26.4 27.35 24.9 26.3 L24.15 25.85 23.4 25.55 Q22.9 24.2 22 23 21.1 21.9 19.85 21 17.7 19.55 15.05 19.1 L12 18.95 8.95 19.55 8.8 19.6 Q6.75 20.35 5.3 21.65\"/>\n  </g>\n</svg>";
         // // console.log(svg.toString());
         // msg.send('add-symbol', svg);
@@ -479,10 +496,8 @@ var CanvasController = (function () {
             _obj_type = _obj.type.toUpperCase(),
             object = fabric.util["object"].clone(_obj),
             is_clone = true;
-
         object.set("top", object.top + 10);
         object.set("left", object.left + 10);
-
         if(_obj.type == 'group') {
             _obj_type = DOType.SYMBOL;
         }
@@ -525,9 +540,7 @@ var CanvasController = (function () {
         var _this = this;
         fabric.loadSVGFromURL(url, function (objects, options) {
             var obj = fabric.util.groupSVGElements(objects, options);
-            // console.log(obj);
             $cmd.run('add', $canvas.create(DOType.SYMBOL, obj));
-            // console.log("svg loaded");
         });
     };
     CanvasController.prototype.addImage = function (url) {
@@ -550,7 +563,7 @@ var CanvasController = (function () {
         canvas["object"] = e.target;
     };
     CanvasController.prototype.onObjectSelectCreated = function (e) {
-        console.log("select: ", e, this);
+        console.log("select-created: ", e, this);
     };
     CanvasController.prototype.onObjectSelectCleared = function (e) {
         msg.send('deselect-all');
@@ -565,6 +578,19 @@ var CanvasController = (function () {
     };
     CanvasController.prototype.onUndoClick = function () {
         this.$cmd.undo();
+    };
+    CanvasController.prototype.onColorSelect = function(val) {
+        var hexcolor = "#" + val;
+        $ocolorbgk = val;
+        $(".background-picker img").css('background-color', hexcolor);
+        canvas.backgroundColor = hexcolor;
+        canvas.renderAll();
+    };
+    CanvasController.prototype.onColorChange = function(val) {
+        var hexcolor = "#" + val;
+        canvas.backgroundColor = hexcolor;
+        canvas.renderAll();
+        $(".background-picker img").css('background-color', hexcolor);
     };
     CanvasController.prototype.addGrid = function() {
         var grid = 5;
@@ -1485,6 +1511,7 @@ var FontSelectionController = (function (_super) {
     return FontSelectionController;
 })(PopupController);
 $ocolors = [];
+$ocolorbgk = "ccc";
 var TextController = (function () {
     function TextController($scope) {
         var _this = this;
