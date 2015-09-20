@@ -727,23 +727,31 @@ var TransformController = (function () {
         _this.$scope.y = (e.target.get('top')).round(_this.precision);
         _this.$scope.width = (e.target.get('width') * e.target.scaleX).round(_this.precision);
         _this.$scope.height = (e.target.get('height') * e.target.scaleY).round(_this.precision);
-        _this.$scope.$apply();
+        setTimeout(function() {
+            _this.$scope.$apply();
+        }, 100);
     };
     TransformController.prototype.selectionCleared = function (e) {
         var _this = TransformController.instance;
-        _this.$scope.$apply();
+        setTimeout(function() {
+            _this.$scope.$apply();
+        }, 100);
     };
     TransformController.prototype.onObjectMove = function (e) {
         var _this = TransformController.instance;
         _this.$scope.x = (e.target.get('left')).round(_this.precision);
         _this.$scope.y = (e.target.get('top')).round(_this.precision);
-        _this.$scope.$apply();
+        setTimeout(function() {
+            _this.$scope.$apply();
+        }, 100);
     };
     TransformController.prototype.onObjectScale = function (e) {
         var _this = TransformController.instance;
         _this.$scope.width = (e.target.get('width') * e.target.scaleX).round(_this.precision);
         _this.$scope.height = (e.target.get('height') * e.target.scaleY).round(_this.precision);
-        _this.$scope.$apply();
+        setTimeout(function() {
+            _this.$scope.$apply();
+        }, 100);
         // console.log("scale", e.target.get('width'));
     };
     TransformController.prototype.onChangePosition = function () {
@@ -1982,7 +1990,7 @@ app.controller("ToolsController", ["$scope", "$rootScope", "$http", 'base64', To
 app.controller("PopupsController", ["$scope", PopupsController]);
 app.controller("SymbolsController", ["$scope", "$http", SymbolsController]);
 app.controller("CanvasController", ["$scope", 'Command', CanvasController]);
-app.controller("TransformController", ["$scope", 'Command', TransformController]);
+app.controller("TransformController", ["$scope", 'Command', "$timeout", TransformController]);
 app.controller("ShadowController", ["$scope", 'Command', ShadowController]);
 app.controller("AddTextController", ["$scope", AddTextController]);
 app.controller("DownloadLogoController", ["$scope", DownloadLogoController]);
@@ -1995,7 +2003,7 @@ app.controller("FontSelectionController", ['$scope', FontSelectionController]);
 app.controller("TextController", ['$scope', TextController]);
 app.controller("RenameController", ['$scope', RenameController]);
 app.controller("SymbolColorController", ['$scope', SymbolColorController]);
-//app.factory("debounce", ["$timeout", debounceFactory]);
+// app.factory("debounce", ["$timeout", debounceFactory]);
 window.onload = function () {
 };
 var NgApp = (function () {
