@@ -772,6 +772,8 @@ var ShadowController = (function () {
         $scope.direction = 45;
         $scope.outset = 2;
         msg.on('object-selected', this.onObjectSelected, this);
+        msg.on('object-deselected', this.onObjectDeSelected, this);
+        msg.on('deselect-all', this.onObjectDeSelected, this);
         $scope.$watch("direction", function () { return _this.onChange(); });
         $scope.$watch("outset", function () { return _this.onChange(); });
         $(".shadow-picker")["mlColorPicker"]({
@@ -783,44 +785,76 @@ var ShadowController = (function () {
     }
     ShadowController.prototype.onColorChange = function (val) {
         $(".shadow-picker").css('background-color', "#" + val);
-        var dobj = $canvas.selection[0];
+        var dobj;
+        for(var i = 0; i < $canvas.children.length; i++) {
+            if($canvas.children[i].selected) {
+                dobj = $canvas.children[i];
+            }
+        }
         var newShadow = $.extend(true, {}, dobj.shadow);
         newShadow.color = '#' + val;
         $cmd.run('shadow', dobj, dobj.shadow, newShadow);
         // this.$cmd.run('shadow-color', $canvas.selection[0], $canvas.selection[0].shadow.color , '#'+val);
         this.shadowColor = val;
     };
-    /*
-        changeShadowColor(dobj,lastVal, val) {
-            $canvas.setShadowColor(dobj,val);
-        }
-        */
     ShadowController.prototype.onObjectSelected = function (dobj) {
-        // console.log("erzer", dobj);
         this.$scope.enabled = dobj.shadow.enabled;
-        var obj = dobj.raw;
-        this.selectedObject = obj;
-        this.$scope.direction = Math.atan2(dobj.shadow.offsetY, dobj.shadow.offsetX) / Math.PI * 180;
-        this.$scope.outset = Math.round(dobj.shadow.offsetY / Math.cos(this.$scope.direction));
-        this.onChange();
-        // this.$scope.$apply();
+        if(this.$scope.enabled) {
+            this.$scope.direction = dobj.shadow.direction;
+            this.$scope.outset = dobj.shadow.outset;
+            var color = dobj.shadow.color;
+            if(color.indexOf('#') == -1) {
+                var rgba = dobj.shadow.color.split(',');
+                    rgba.splice(rgba.length - 1 , 1);
+                    rgb = rgba.join(',') + ')';
+                    color = rgb2hex(rgb);
+                    color = "#" + color;
+            }
+            $(".shadow-picker").css('background-color', color);
+        }
     };
+    ShadowController.prototype.onObjectDeSelected = function() {
+        this.$scope.enabled = false;
+        $('.shadow-picker').css('background-color', '#ccc');
+    }
     ShadowController.prototype.onChange = function () {
-        var dobj = $canvas.selection[0];
+        var dobj = $canvas.children.length;
         if (!dobj)
             return;
+        for(var i = 0; i < $canvas.children.length; i++) {
+            if($canvas.children[i].selected) {
+                dobj = $canvas.children[i];
+            }
+        }
         if (this.$scope.enabled) {
             var newShadow = $.extend(true, {}, dobj.shadow);
             var angle = this.$scope.direction / 180 * Math.PI;
-            newShadow.offsetX = Math.cos(angle) * this.$scope.outset, newShadow.offsetY = Math.sin(angle) * this.$scope.outset, $cmd.run('shadow', dobj, dobj.shadow, newShadow);
+            newShadow.offsetX = Math.cos(angle) * this.$scope.outset,
+            newShadow.offsetY = Math.sin(angle) * this.$scope.outset,
+            newShadow.direction = this.$scope.direction;
+            newShadow.outset = this.$scope.outset;
+            $cmd.run('shadow', dobj, dobj.shadow, newShadow);
         }
     };
     ShadowController.prototype.onOnOffClick = function () {
+        var dobj;
+        this.$scope.direction = 45;
+        this.$scope.outset = 2;
         this.$scope.enabled = !this.$scope.enabled;
-        var dobj = $canvas.selection[0];
+        for(var i = 0; i < $canvas.children.length; i++) {
+            if($canvas.children[i].selected) {
+                dobj = $canvas.children[i];
+            }
+        }
+        this.$scope.direction = dobj.shadow.direction;
+        this.$scope.outset = dobj.shadow.outset;
         var newShadow = $.extend(true, {}, dobj.shadow);
         newShadow.enabled = this.$scope.enabled;
         $cmd.run('shadow', dobj, dobj.shadow, newShadow);
+        var rgba = dobj.shadow.color.split(',');
+            rgba.splice(rgba.length - 1 , 1);
+            rgb = rgba.join(',') + ')';
+            $(".shadow-picker").css('background-color', "#" + rgb2hex(rgb));
     };
     return ShadowController;
 })();
@@ -1655,6 +1689,8 @@ var DisplayObject = (function () {
             blur: 5,
             offsetX: 0,
             offsetY: 0,
+            direction: 0,
+            outset: 0,
             opacity: 0.6,
             fillShadow: true,
             strokeShadow: true
@@ -1814,7 +1850,7 @@ var CanvasService = (function () {
         dobj.name = newname;
     };
     CanvasService.prototype.shadow = function (dobj, oldshadow, shadow) {
-        // console.log(oldshadow, shadow);
+        console.log(oldshadow, shadow);
         dobj.shadow = shadow;
         if (shadow.enabled) {
             dobj.raw.setShadow(shadow);
