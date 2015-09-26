@@ -20,6 +20,11 @@ function rgb2hex(rgb) {
     return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
 }
 $(document).ready(function() {
+    // Responsive canvas
+    $(window).on("resize", function() {
+        canvas.setWidth(window.innerWidth);
+        canvas.setHeight(window.innerHeight);
+    });
     window.addEventListener("load", function () {
         var couponcodes = document.getElementsByClassName("ctooltip");
         for (var i = 0; i < couponcodes.length; i++) {

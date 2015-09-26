@@ -413,8 +413,8 @@ var CanvasController = (function () {
         CanvasController.instance = this;
         canvas = this.canvas = new fabric.Canvas('canvas');
         $canvas = new CanvasService(canvas);
-        canvas.setWidth(750);
-        canvas.setHeight(600);
+        canvas.setWidth(window.innerWidth);
+        canvas.setHeight(window.innerHeight);
         $(".background-picker")["mlColorPicker"]({
             'onChange': function (val) {
                 _this.onColorSelect(val);
