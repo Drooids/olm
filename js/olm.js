@@ -415,6 +415,7 @@ var CanvasController = (function () {
         $canvas = new CanvasService(canvas);
         canvas.setWidth(window.innerWidth);
         canvas.setHeight(window.innerHeight);
+        canvas.selection = false; // Selection disabled for now.
         $(".background-picker")["mlColorPicker"]({
             'onChange': function (val) {
                 _this.onColorSelect(val);
