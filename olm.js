@@ -474,10 +474,12 @@ var CanvasController = (function () {
         this.$scope.redoActive = b2;
     };
     CanvasController.prototype.duplicate = function () {
-        var object = fabric.util["object"].clone(canvas.getActiveObject());
+        var _obj = canvas.getActiveObject(),
+            object = fabric.util["object"].clone(_obj),
+            is_clone = true;
         object.set("top", object.top + 10);
         object.set("left", object.left + 10);
-        $cmd.run('add-object', object);
+        $cmd.run('add', $canvas.create(_obj.type.toUpperCase(), object), is_clone);
     };
     CanvasController.prototype.rotate = function (angle) {
         this.selected.rotate(this.selected.getAngle() + angle);
@@ -551,9 +553,6 @@ var CanvasController = (function () {
     };
     CanvasController.prototype.onUndoClick = function () {
         this.$cmd.undo();
-    };
-    CanvasController.prototype.onBgColorClick = function () {
-        alert("Comming soon!");
     };
     CanvasController.prototype.addGrid = function() {
         var grid = 5;
@@ -1212,7 +1211,7 @@ var ObjectsController = (function () {
         var disObj = new DisplayObject();
         disObj.raw = obj;
         this.items.unshift(disObj);
-        $canvas.children.unshift(disObj);
+        // $canvas.children.unshift(disObj);
         // alert("onObjectAdd");
         // disObj.type = obj.type.toUpperCase();
         // if (disObj.type == "PATH-GROUP") disObj.type = "SYMBOL";
@@ -1255,7 +1254,6 @@ var ObjectsController = (function () {
     };
     ObjectsController.prototype.removeObj = function () {
         msg.send('remove-object');
-
     };
     ObjectsController.prototype.onDeleteClick = function () {
         this.removeObj();
@@ -1663,12 +1661,12 @@ var CanvasService = (function () {
         this.root.on('mouse:down', this.onMouseDown);
         window.requestAnimationFrame(this.renderLoop);
     }
-    CanvasService.prototype.create = function (type, object) {
+    CanvasService.prototype.create = function (type, object, clone) {
         var dobj = new DisplayObject();
         dobj.id = this.idIndex++;
         dobj.type = type;
         dobj.name = "OBJECT" + this.idIndex;
-        if (type == DOType.SYMBOL) {
+        if (type == DOType.SYMBOL && !clone) {
             dobj.raw = new fabric.Group(object.getObjects());
             console.log("this is a symbol");
         }
@@ -1678,7 +1676,6 @@ var CanvasService = (function () {
         return dobj;
     };
     CanvasService.prototype.add = function (dobj) {
-        console.log(dobj);
         dobj.selected = true;
         this.root.add(dobj.raw).renderAll();
         this.children.unshift(dobj);
@@ -1692,6 +1689,18 @@ var CanvasService = (function () {
         }
         //msg.send('object-added', obj);
     };
+    CanvasService.prototype.duplicate = function (obj) {
+        var _obj = obj;
+        if(_obj != null) {
+            // dobj = this.create(_obj.type.toUpperCase(), _obj);
+            var dobj = new DisplayObject();
+            dobj.id = this.idIndex++;
+            dobj.type = _obj.type.toUpperCase();
+            dobj.name = "OBJECT" + this.idIndex;
+            // this.add(dobj);
+            this.children.unshift(dobj);
+        }
+    };
     CanvasService.prototype.select = function (dobj) {
         this.unselectAll();
         dobj.selected = true;
@@ -1700,6 +1709,9 @@ var CanvasService = (function () {
         $msg.send('object-selected', dobj);
     };
     CanvasService.prototype.remove = function (dobj) {
+        console.log(dobj);
+        console.log(this.children);
+        this.children.indexOf(dobj);
         this.children.splice(this.children.indexOf(dobj), 1);
         if (dobj.selected) {
             canvas.discardActiveObject();

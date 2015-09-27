@@ -551,7 +551,7 @@ var CanvasController = (function () {
         });
     };
     CanvasController.prototype.addText = function (value) {
-        var left = 40, top = 40;
+        var left = 20, top = 20;
         if($canvas.children.length > 0) {
             var last_object = $canvas.children[0].raw;
             left += last_object.left;
@@ -620,11 +620,22 @@ var CanvasController = (function () {
     CanvasController.prototype.removeObjects = function() {
         $cmd.run('remove-all');
     };
+    CanvasController.prototype.removeOpacityAll = function() {
+        $canvas.children.forEach(function(dobj) {
+            if(dobj.type == DOType.SYMBOL) {
+                dobj.raw.getObjects().forEach(function(a) {
+                    a.setOpacity(1);
+                });
+            }
+        });
+    };
     CanvasController.prototype.saveCanvas = function (width, height, proportions, areacolor) {
         var that = this;
 
         // First of all - deselect all active objects
         canvas.deactivateAll().renderAll();
+        this.removeOpacityAll();
+        window.cancelRequestAnimFrame(window.renderAnimationFrame);
 
         // If the canvas has background color, clear it first
         var _backgroundColor = canvas.backgroundColor;
@@ -1685,7 +1696,7 @@ var SymbolColorController = (function () {
             var mouseleaveC = function() {
                 for(var i = 0; i < $ocolors.length; i++) {
                     if($ocolors[i].o.selected) {
-                        _this.onColorChange($ocolors[i].shadow.color);
+                        _this.onColorChange($ocolors[i].color);
                     }
                 }
             };
@@ -1699,8 +1710,6 @@ var SymbolColorController = (function () {
     SymbolColorController.prototype.onObjectSelected = function (obj) {
         // console.log('symbolcolor-enabled; ', this.enabled());
         this.$scope.visible = this.enabled();
-        //// console.log('obj.type: ' + obj.type);
-        //this.$scope.visible = (obj.type == "text");
     };
     SymbolColorController.prototype.onObjectDeSelected = function() {
         this.$scope.visible = false;
@@ -1708,8 +1717,7 @@ var SymbolColorController = (function () {
     SymbolColorController.prototype.onFontClick = function () {
         msg.send('open-popup', 'fontselection');
     };
-    SymbolColorController.prototype.onInvisibleClick = function () {
-    };
+    SymbolColorController.prototype.onInvisibleClick = function () {};
     return SymbolColorController;
 })();
 var Messenger = (function () {
@@ -1835,7 +1843,8 @@ var CanvasService = (function () {
         this.activePathsColor = new fabric['Color']('rgba(0,0,0,1)');
         this.alpha = 0;
         this.alphaModifier = 0.04;
-        this.renderLoop = function (time) {
+        window.renderAnimationFrame;
+        this.renderLoop = function () {
             if (_this.alpha > 0.97) {
                 _this.alphaModifier = -0.03;
             }
@@ -1847,7 +1856,7 @@ var CanvasService = (function () {
                 _this.activePaths[i].setOpacity(_this.alpha);
             }
             _this.root.renderAll();
-            window.requestAnimationFrame(_this.renderLoop);
+            window.renderAnimationFrame = window.requestAnimationFrame(_this.renderLoop);
         };
         this.onMouseDown = function (e) {
             for (var i = 0; i < _this.activePaths.length; i++) {
@@ -1872,11 +1881,13 @@ var CanvasService = (function () {
                 }
             }
             $msg.send('paths-selected');
+            window.cancelRequestAnimFrame(window.renderAnimationFrame)
+            window.renderAnimationFrame = window.requestAnimationFrame(_this.renderLoop);
         };
+
+        canvas.on('mouse:down',  this.onMouseDown);
+
         this.root = canvas;
-        canvas.on('mouse:down', function (e) {
-            // console.log('down', e);
-        });
         $cmd.map('add-object', this.add, this);
         $cmd.mapUndo('add-object', function (rawobj) {
             var dobj = this.getByRaw(rawobj);
@@ -1907,9 +1918,9 @@ var CanvasService = (function () {
         var width = this.root.getWidth();
         var height = this.root.getHeight();
         var pixels = this.root.getContext().getImageData(0, 0, width, height);
-        //var mouseDownHandler
-        this.root.on('mouse:down', this.onMouseDown);
-        window.requestAnimationFrame(this.renderLoop);
+        // var mouseDownHandler
+        // this.root.on('mouse:down', this.onMouseDown);
+        window.renderAnimationFrame = window.requestAnimationFrame(this.renderLoop);
     }
     CanvasService.prototype.create = function (type, object, clone) {
         var dobj = new DisplayObject();
@@ -1918,7 +1929,6 @@ var CanvasService = (function () {
         dobj.name = "OBJECT" + this.idIndex;
         if ((type == DOType.SYMBOL) && (!clone)) {
             dobj.raw = new fabric.Group(object.getObjects());
-            // console.log("this is a symbol");
         }
         else if((type == DOType.SYMBOL) && clone) {
             var objs = canvas.getObjects('group');
@@ -2011,7 +2021,7 @@ var CanvasService = (function () {
     };
     CanvasService.prototype.symbolColor = function (dobj, oldcolor, newcolor) {
         var paths = this.getPathsByColor(dobj, oldcolor);
-        // console.log('setFill', paths.length, newcolor);
+        console.log('setFill', paths.length, newcolor);
         for (var i = 0; i < paths.length; i++) {
             paths[i].setFill(newcolor);
         }
