@@ -551,7 +551,7 @@ var CanvasController = (function () {
         });
     };
     CanvasController.prototype.addText = function (value) {
-        var left = 20, top = 20;
+        var left = 40, top = 40;
         if($canvas.children.length > 0) {
             var last_object = $canvas.children[0].raw;
             left += last_object.left;
