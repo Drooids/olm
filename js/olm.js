@@ -946,6 +946,7 @@ var ShadowController = (function () {
         var newShadow = $.extend(true, {}, dobj.shadow);
         newShadow.enabled = this.$scope.enabled;
         $cmd.run('shadow', dobj, dobj.shadow, newShadow);
+        console.log(dobj);
         var rgba = dobj.shadow.color.split(',');
             rgba.splice(rgba.length - 1 , 1);
             rgb = rgba.join(',') + ')';
@@ -1976,13 +1977,25 @@ var CanvasService = (function () {
         dobj.name = newname;
     };
     CanvasService.prototype.shadow = function (dobj, oldshadow, shadow) {
-        console.log(oldshadow, shadow);
         dobj.shadow = shadow;
         if (shadow.enabled) {
-            dobj.raw.setShadow(shadow);
+            if(dobj.type.toUpperCase() == DOType.SYMBOL) {
+                // Our drawings are made of multiple objects
+                if(dobj.raw.getObjects().length) {
+                    dobj.raw.getObjects()[0].setShadow(shadow);
+                }
+            } else {
+                dobj.raw.setShadow(shadow);
+            }
         }
         else {
-            dobj.raw.setShadow(null);
+            if(dobj.type.toUpperCase() == DOType.SYMBOL) {
+                if(dobj.raw.getObjects().length) {
+                    dobj.raw.getObjects()[0].setShadow(null);
+                }
+            } else {
+                dobj.raw.setShadow(null);
+            }
         }
         this.root.renderAll();
     };
