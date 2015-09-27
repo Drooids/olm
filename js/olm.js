@@ -620,64 +620,81 @@ var CanvasController = (function () {
     CanvasController.prototype.removeObjects = function() {
         $cmd.run('remove-all');
     };
-    CanvasController.prototype.saveCanvas = function () {
+    CanvasController.prototype.saveCanvas = function (width, height, proportions, areacolor) {
+        var that = this;
+
         // First of all - deselect all active objects
         canvas.deactivateAll().renderAll();
 
-        var bound = this.getRectBounds();
-        var copy = document.createElement('canvas').getContext('2d');
-        var trimHeight = bound.bottom - bound.top,
-            trimWidth = bound.right - bound.left,
-            trimmed = canvas.getContext().getImageData(bound.left, bound.top, trimWidth, trimHeight);
-        copy.canvas.width = trimWidth;
-        copy.canvas.height = trimHeight;
-        copy.putImageData(trimmed, 0, 0);
-        var image = copy.canvas.toDataURL();
-        var header = 'data:application/octet-stream;filename=filename.txt;headers=Content-Disposition%3A%20attachment%3B%20filename=logo.png';
-        image = image.replace('data:image/png', header);
-        document.getElementById("dl")["object"] = image;
-
-        // A interesting way of downloading stream.
-        var download = document.createElement('a');
-        download.href = image;
-
-        var date = new Date().toString();
-        var split_date = date.split(' ');
-
-        // Get rid of the week day.
-        split_date.splice(0, 1);
-        var month = split_date[0],
-            day = split_date[1],
-            year = split_date[2].slice(2, 4); // Get the last two digits.
-
-        var time = split_date[3].split(':');
-        var h = time[0], m = time[1], s = time[2];
-
-        month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(month) / 3 + 1;
-
-        if(month < 10) month = '0' + month;
-
-        // Default format:
-        // onlinelogomaker-MDY-HM;
-        // E.x.: onlinelogomaker-082115-0228.png
-        var save_file_name = 'onlinelogomaker-' + month + day + year + '-' + h + m + '.png';
-
-        download.download = save_file_name;
-        download.click();
-
-        // Firefox.
-        function fireEvent(obj,evt){
-          var fireOnThis = obj;
-          if(document.createEvent ) {
-            var evObj = document.createEvent('MouseEvents');
-            evObj.initEvent( evt, true, false );
-            fireOnThis.dispatchEvent( evObj );
-          } else if( document.createEventObject ) {
-            var evObj = document.createEventObject();
-            fireOnThis.fireEvent( 'on' + evt, evObj );
-          }
+        // If the canvas has background color, clear it first
+        var _backgroundColor = canvas.backgroundColor;
+        if(_backgroundColor.length) {
+            canvas.backgroundColor = "";
         }
-        fireEvent(download, 'click')
+
+        setTimeout(function() {
+            var bound = that.getRectBounds();
+            var copy = document.createElement('canvas').getContext('2d');
+            var trimHeight = bound.bottom - bound.top,
+                trimWidth = bound.right - bound.left,
+                ctx = canvas.getContext();
+
+            if(areacolor) {
+                ctx.globalCompositeOperation = "destination-over";
+                ctx.fillStyle = _backgroundColor;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            if(_backgroundColor.length) {
+                canvas.backgroundColor = _backgroundColor;
+            }
+
+            trimmed = ctx.getImageData(bound.left, bound.top, trimWidth, trimHeight);
+            copy.canvas.width = trimWidth;
+            copy.canvas.height = trimHeight;
+            copy.putImageData(trimmed, 0, 0);
+            var image = copy.canvas.toDataURL();
+            var header = 'data:application/octet-stream;filename=filename.txt;headers=Content-Disposition%3A%20attachment%3B%20filename=logo.png';
+            image = image.replace('data:image/png', header);
+            document.getElementById("dl")["object"] = image;
+
+            // A interesting way of downloading stream.
+            var download = document.createElement('a');
+            download.href = image;
+
+            var date = new Date().toString();
+            var split_date = date.split(' ');
+            split_date.splice(0, 1); // Get rid of the week day.
+            var month = split_date[0],
+                day = split_date[1],
+                year = split_date[2].slice(2, 4); // Get the last two digits.
+
+            var time = split_date[3].split(':');
+            var h = time[0], m = time[1], s = time[2];
+
+            month = "JanFebMarAprMayJunJulAugSepOctNovDec".indexOf(month) / 3 + 1;
+            if(month < 10) month = '0' + month;
+            // Default format: onlinelogomaker-MDY-HM;, E.x.: onlinelogomaker-082115-0228.png
+            var save_file_name = 'onlinelogomaker-' + month + day + year + '-' + h + m + '.png';
+
+            download.download = save_file_name;
+            download.click();
+
+            // Firefox.
+            function fireEvent(obj,evt){
+              var fireOnThis = obj;
+              if(document.createEvent ) {
+                var evObj = document.createEvent('MouseEvents');
+                evObj.initEvent( evt, true, false );
+                fireOnThis.dispatchEvent( evObj );
+              } else if( document.createEventObject ) {
+                var evObj = document.createEventObject();
+                fireOnThis.fireEvent( 'on' + evt, evObj );
+              }
+            }
+            fireEvent(download, 'click');
+
+        }, 50);
     };
     CanvasController.prototype.getRectBounds = function () {
         var width = canvas.getWidth();
@@ -842,7 +859,7 @@ var ShadowController = (function () {
             $("#mlSelectedColorText").on('keyup', keyupC);
             $('#mlColors').on('mouseleave', mouseleaveC);
         });
-        // $cmd.map('shadow-color', this.changeShadowColor, this, UndoType.SWITCH);
+        $cmd.map('shadow-color', this.changeShadowColor, this, UndoType.SWITCH);
     }
     ShadowController.prototype.onColorChange = function (val) {
         $(".shadow-picker").css('background-color', "#" + val);
@@ -970,13 +987,13 @@ var DownloadLogoController = (function () {
         this.height = 0;
         this.constrainProportions = true;
         this.useWorkingAreaColor = false;
+        DownloadLogoController.instance = this;
         $scope.text = "";
         $scope.visible = false;
         $scope.$ = this;
         msg.on('open-downloadlogo', this.open, this);
     }
     DownloadLogoController.prototype.open = function () {
-        // console.log('open-downloadlogo');
         this.$scope.visible = true;
         this.$scope.text = "";
     };
@@ -985,7 +1002,7 @@ var DownloadLogoController = (function () {
         msg.send('close-popups');
     };
     DownloadLogoController.prototype.onOkClick = function () {
-        msg.send('save-canvas', this.width, this.height);
+        msg.send('save-canvas', this.width, this.height, this.constrainProportions, this.useWorkingAreaColor);
         this.$scope.visible = false;
         msg.send('close-popups');
     };
@@ -1654,6 +1671,25 @@ var SymbolColorController = (function () {
         msg.on('deselect-all', this.onObjectDeSelected, this);
         $(".color-picker")["mlColorPicker"]({
             'onChange': this.onColorChange
+        });
+
+        $('.color-picker').click(function() {
+            $("#mlSelectedColorText").off();
+            $('#mlColors').off();
+            window.colorpicker.controller = "SymbolColorController";
+            window.colorpicker.visible = true;
+            var keyupC = function() {
+                _this.onColorChange(this.value)
+            };
+            var mouseleaveC = function() {
+                for(var i = 0; i < $ocolors.length; i++) {
+                    if($ocolors[i].o.selected) {
+                        _this.onColorChange($ocolors[i].shadow.color);
+                    }
+                }
+            };
+            $("#mlSelectedColorText").on('keyup', keyupC);
+            $('#mlColors').on('mouseleave', mouseleaveC);
         });
     }
     SymbolColorController.prototype.enabled = function () {
