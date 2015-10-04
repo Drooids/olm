@@ -1683,9 +1683,11 @@ var SymbolColorController = (function () {
     SymbolColorController.prototype.enabled = function () {
         return $canvas.selection.length > 0 && $canvas.activePaths.length > 0;
     };
-    SymbolColorController.prototype.onObjectSelected = function (obj) {
-        // console.log('symbolcolor-enabled; ', this.enabled());
-        this.$scope.visible = this.enabled();
+    SymbolColorController.prototype.onObjectSelected = function (dobj) {
+        this.onObjectDeSelected();
+        if(dobj.type == DOType.SYMBOL) {
+            this.$scope.visible = this.enabled();
+        }
     };
     SymbolColorController.prototype.onObjectDeSelected = function() {
         this.$scope.visible = false;
@@ -1865,7 +1867,7 @@ var CanvasService = (function () {
                         _this.activePaths.push(path);
                     }
                 }
-                $msg.send('paths-selected');
+                $msg.send('paths-selected', dobj);
                 window.cancelRequestAnimFrame(window.renderAnimationFrame)
                 window.renderAnimationFrame = window.requestAnimationFrame(_this.renderLoop);
             } else {
