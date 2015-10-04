@@ -262,13 +262,12 @@ var ToolsController = (function () {
             processData: false
         }).then(function (data) {
             window.open('http://www.onlinelogomaker.com/account');
-            // console.log("Project Saved");
         });
         var img = canvas.toDataURL('png');
         img = img.replace("data:image/png;base64,", "");
         // img = Base64.decode(img);
         var imgRaw = Base64Binary.decode(img, null);
-        //var imgRaw = atob(img);
+        // var imgRaw = atob(img);
         // console.log(imgRaw);
         $.ajax({
             type: 'POST',
@@ -289,6 +288,7 @@ var ToolsController = (function () {
         for (var i = 0, f; f = files[i]; i++) {
             // Only process image files.
             if (!f.type.match('image.*')) {
+                alert("Sorry, only image file type is allowed.");
                 continue;
             }
             var reader = new FileReader();
@@ -1565,7 +1565,6 @@ var TextController = (function () {
         $cmd.run('text-color', this.textColor, val);
         this.textColor = val;
     };
-
     TextController.prototype.fontSelect = function (font_name) {
         this.$scope.font_name = font_name;
     };
