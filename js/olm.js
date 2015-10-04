@@ -210,7 +210,6 @@ var ToolsController = (function () {
         msg.send('open-popup', 'downloadlogo');
     };
     ToolsController.prototype.saveProject = function () {
-
         this.$scope.visible = false;
         msg.send("close-popups");
         $("#id-auth").hide();
@@ -611,14 +610,15 @@ var CanvasController = (function () {
         var that = this;
 
         window.cancelRequestAnimFrame(window.renderAnimationFrame);
-        this.removeOpacityAll();
-        canvas.deactivateAll().renderAll();
 
         // If the canvas has background color, clear it first
         var _backgroundColor = canvas.backgroundColor;
         if(_backgroundColor.length) {
             canvas.backgroundColor = "";
         }
+
+        this.removeOpacityAll();
+        canvas.deactivateAll().renderAll();
 
         setTimeout(function() {
             var bound = that.getRectBounds();
@@ -682,7 +682,7 @@ var CanvasController = (function () {
             }
             fireEvent(download, 'click');
 
-        }, 50);
+        }, 200);
     };
     CanvasController.prototype.getRectBounds = function () {
         var width = canvas.getWidth();
@@ -975,7 +975,7 @@ var DownloadLogoController = (function () {
         this.width = 0;
         this.height = 0;
         this.constrainProportions = true;
-        this.useWorkingAreaColor = false;
+        this.useWorkingAreaColor = true;
         DownloadLogoController.instance = this;
         $scope.text = "";
         $scope.visible = false;
@@ -1847,6 +1847,9 @@ var CanvasService = (function () {
             var pixel = (mousePos.x + mousePos.y * pixels.width) * 4;
             _this.activePathsColor = new fabric['Color']('rgb(' + pixels.data[pixel] + ',' + pixels.data[pixel + 1] + ',' + pixels.data[pixel + 2] + ')');
             var colorHex = '#' + _this.activePathsColor.toHex().toLowerCase();
+
+            console.log(_this.selection);
+            console.log(_this.activePaths);
 
             var dobj;
             for(var i = 0; i < _this.selection.length; i++) {
