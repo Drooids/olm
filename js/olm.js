@@ -1686,6 +1686,11 @@ var SymbolColorController = (function () {
     SymbolColorController.prototype.onObjectSelected = function (dobj) {
         this.onObjectDeSelected();
         if(dobj.type == DOType.SYMBOL) {
+            var paths = $canvas.activePaths;
+            for(var i = 0; i < paths.length; i++) {
+                $(".color-picker").css('background-color', paths[i].getFill());
+                break;
+            }
             this.$scope.visible = this.enabled();
         }
     };
