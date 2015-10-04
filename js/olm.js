@@ -1646,7 +1646,7 @@ var SymbolColorController = (function () {
             if (!_this.enabled())
                 return;
             $(".color-picker").css('background-color', "#" + val);
-            $cmd.run('symbol-color', $canvas.selection[0], '#' + $canvas.activePathsColor.toHex().toLowerCase(), '#' + val);
+            $cmd.run('symbol-color', this.selectedObj(), '#' + $canvas.activePathsColor.toHex().toLowerCase(), '#' + val);
             _this.textColor = val;
         };
         ObjectsController.instance = this;
@@ -1696,6 +1696,14 @@ var SymbolColorController = (function () {
         msg.send('open-popup', 'fontselection');
     };
     SymbolColorController.prototype.onInvisibleClick = function () {};
+    SymbolColorController.prototype.selectedObj = function() {
+        for(key in $canvas.selection) {
+            if($canvas.selection[key].selected) {
+                return $canvas.selection[key];
+                break;
+            }
+        }
+    }
     return SymbolColorController;
 })();
 var Messenger = (function () {
