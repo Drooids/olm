@@ -2049,7 +2049,8 @@ var CanvasService = (function () {
         this.root.renderAll();
     };
     CanvasService.prototype.setVisibility = function(dobj) {
-        window.cancelRequestAnimFrame(window.renderAnimationFrame)
+        window.cancelRequestAnimFrame(window.renderAnimationFrame);
+        // var activePaths = dobj.raw.getObjects()
         for(var i = 0; i < $canvas.activePaths.length; i++) {
             var path = $canvas.activePaths[i];
             path.opacity = 0;
