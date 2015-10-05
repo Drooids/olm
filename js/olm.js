@@ -1330,7 +1330,7 @@ var ObjectsController = (function () {
         this.onObjectMoveDown(this);
     };
     ObjectsController.prototype.onObjectSelected = function (obj) {
-        //var _this = ObjectsController.instance;
+        // var _this = ObjectsController.instance;
         this.selectObject(obj, true);
         this.update();
         // scopeApply(_this.$scope);
@@ -1658,7 +1658,9 @@ var SymbolColorController = (function () {
         msg.on('paths-selected', this.onObjectSelected, this);
         msg.on('deselect-all', this.onObjectDeSelected, this);
         $(".color-picker")["mlColorPicker"]({
-            'onChange': this.onColorChange
+            'onChange': function (val) {
+                _this.onColorChange(val);
+            }
         });
 
         $('.color-picker').click(function() {
@@ -1667,12 +1669,12 @@ var SymbolColorController = (function () {
             window.colorpicker.controller = "SymbolColorController";
             window.colorpicker.visible = true;
             var keyupC = function() {
-                _this.onColorChange(this.value)
+                // _this.onColorChange(this.value)
             };
             var mouseleaveC = function() {
                 for(var i = 0; i < $ocolors.length; i++) {
                     if($ocolors[i].o.selected) {
-                        _this.onColorChange($ocolors[i].color);
+                       //  _this.onColorChange($ocolors[i].color);
                     }
                 }
             };
@@ -1700,12 +1702,13 @@ var SymbolColorController = (function () {
     SymbolColorController.prototype.onFontClick = function () {
         msg.send('open-popup', 'fontselection');
     };
-    SymbolColorController.prototype.onInvisibleClick = function () {};
+    SymbolColorController.prototype.onInvisibleClick = function () {
+        $cmd.run('symbol-visibility', this.selectedObj());
+    };
     SymbolColorController.prototype.selectedObj = function() {
         for(key in $canvas.selection) {
             if($canvas.selection[key].selected) {
                 return $canvas.selection[key];
-                break;
             }
         }
     }
@@ -1852,6 +1855,11 @@ var CanvasService = (function () {
         this.onMouseDown = function (e) {
             for (var i = 0; i < _this.activePaths.length; i++) {
                 _this.activePaths[i].setOpacity(1);
+                if(_this.activePaths[i].hasOwnProperty('invisible')) {
+                    if(_this.activePaths[i].invisible) {
+                        _this.activePaths[i].setOpacity(0);
+                    }
+                }
             }
             _this.root.renderAll();
             var mousePos = _this.root.getPointer(e.e);
@@ -1920,6 +1928,7 @@ var CanvasService = (function () {
         // $cmd.mapUndo('remove-all', this.removeAll, this);
         $cmd.map('shadow', this.shadow, this, 0 /* SWITCH */);
         $cmd.map('symbol-color', this.symbolColor, this, 0 /* SWITCH */);
+        $cmd.map('symbol-visibility', this.setVisibility, this, 0 /* SWITCH */);
         this.root.on('object:selected', function (e) {
             var dobj = _this.getByRaw(e.target);
             if (dobj != null) {
@@ -2024,6 +2033,7 @@ var CanvasService = (function () {
         var activePaths = [];
         for (var i = 0; i < dobj.raw.getObjects().length; i++) {
             var path = dobj.raw.getObjects()[i];
+            console.log(path.getFill().toLowerCase(), colorHex);
             if (path.getFill().toLowerCase() == colorHex) {
                 activePaths.push(path);
             }
@@ -2037,6 +2047,20 @@ var CanvasService = (function () {
             paths[i].setFill(newcolor);
         }
         this.root.renderAll();
+    };
+    CanvasService.prototype.setVisibility = function(dobj) {
+        window.cancelRequestAnimFrame(window.renderAnimationFrame)
+        for(var i = 0; i < $canvas.activePaths.length; i++) {
+            var path = $canvas.activePaths[i];
+            path.opacity = 0;
+            if(path.hasOwnProperty('invisible')) {
+                path.invisible = !path.invisible;
+                if(!path.invisible) path.opacity = 1;
+            } else {
+                path.invisible = true;
+            }
+        }
+        canvas.renderAll();
     };
     CanvasService.prototype.setShadowColor = function (dobj, color) {
         if (!dobj.shadow.enabled)
